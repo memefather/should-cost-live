@@ -8,29 +8,43 @@
         {"id": "cu_ofhc", "name": "Copper (OFHC)", "category": "Metal", "density": 8.96, "basePrice": 9.10},
         {"id": "br_c360", "name": "Brass C360", "category": "Metal", "density": 8.5, "basePrice": 6.20},
         {"id": "inconel718", "name": "Inconel 718", "category": "Metal", "density": 8.19, "basePrice": 45.00},
+        {"id": "steel_4140", "name": "Steel 4140", "category": "Metal", "density": 7.85, "basePrice": 1.20},
+        {"id": "steel_1018", "name": "Steel 1018 (Mild)", "category": "Metal", "density": 7.87, "basePrice": 0.95},
+        {"id": "mag_az31b", "name": "Magnesium AZ31B", "category": "Metal", "density": 1.77, "basePrice": 5.50},
         {"id": "pc", "name": "Polycarbonate (PC)", "category": "Plastic", "density": 1.2, "basePrice": 3.15},
         {"id": "abs", "name": "ABS", "category": "Plastic", "density": 1.05, "basePrice": 2.10},
         {"id": "pom", "name": "Acetal (Delrin/POM)", "category": "Plastic", "density": 1.41, "basePrice": 4.50},
         {"id": "peek", "name": "PEEK", "category": "Plastic", "density": 1.32, "basePrice": 95.00},
         {"id": "ptfe", "name": "PTFE (Teflon)", "category": "Plastic", "density": 2.2, "basePrice": 18.00},
+        {"id": "nylon66", "name": "Nylon 6/6 (GF30)", "category": "Plastic", "density": 1.35, "basePrice": 4.20},
+        {"id": "ultem1010", "name": "Ultem 1010", "category": "Plastic", "density": 1.27, "basePrice": 55.00},
         {"id": "epdm", "name": "EPDM Rubber", "category": "Rubber", "density": 1.1, "basePrice": 2.80},
         {"id": "nitrile", "name": "Nitrile (Buna-N)", "category": "Rubber", "density": 1.2, "basePrice": 3.20},
-        {"id": "silicone", "name": "Silicone Rubber", "category": "Rubber", "density": 1.2, "basePrice": 8.50}
+        {"id": "silicone", "name": "Silicone Rubber", "category": "Rubber", "density": 1.2, "basePrice": 8.50},
+        {"id": "viton", "name": "Viton (FKM)", "category": "Rubber", "density": 1.8, "basePrice": 42.00}
     ],
     "cities": [
-        {"name": "Los Angeles, USA", "country": "USA", "laborIndex": 1.15},
-        {"name": "San Francisco, USA", "country": "USA", "laborIndex": 1.35},
-        {"name": "Austin, USA", "country": "USA", "laborIndex": 1.0},
-        {"name": "Monterrey, Mexico", "country": "Mexico", "laborIndex": 0.25},
-        {"name": "Queretaro, Mexico", "country": "Mexico", "laborIndex": 0.22},
-        {"name": "Shenzhen, China", "country": "China", "laborIndex": 0.18},
-        {"name": "Shanghai, China", "country": "China", "laborIndex": 0.20},
-        {"name": "Ho Chi Minh City, Vietnam", "country": "Vietnam", "laborIndex": 0.10},
-        {"name": "Hanoi, Vietnam", "country": "Vietnam", "laborIndex": 0.09},
-        {"name": "Bangalore, India", "country": "India", "laborIndex": 0.08},
-        {"name": "Stuttgart, Germany", "country": "Germany", "laborIndex": 1.1},
-        {"name": "Tokyo, Japan", "country": "Japan", "laborIndex": 0.9},
-        {"name": "Seoul, South Korea", "country": "South Korea", "laborIndex": 0.85}
+        {"name": "Los Angeles, USA", "country": "USA", "region": "NAMER", "lat": 34.05, "lon": -118.24, "laborIndex": 1.15},
+        {"name": "San Francisco, USA", "country": "USA", "region": "NAMER", "lat": 37.77, "lon": -122.41, "laborIndex": 1.35},
+        {"name": "Austin, USA", "country": "USA", "region": "NAMER", "lat": 30.26, "lon": -97.74, "laborIndex": 1.0},
+        {"name": "Monterrey, Mexico", "country": "Mexico", "region": "NAMER", "lat": 25.68, "lon": -100.31, "laborIndex": 0.25},
+        {"name": "Queretaro, Mexico", "country": "Mexico", "region": "NAMER", "lat": 20.58, "lon": -100.38, "laborIndex": 0.22},
+        {"name": "Guadalajara, Mexico", "country": "Mexico", "region": "NAMER", "lat": 20.65, "lon": -103.34, "laborIndex": 0.20},
+        {"name": "Shenzhen, China", "country": "China", "region": "APAC", "lat": 22.54, "lon": 114.05, "laborIndex": 0.18},
+        {"name": "Shanghai, China", "country": "China", "region": "APAC", "lat": 31.23, "lon": 121.47, "laborIndex": 0.20},
+        {"name": "Suzhou, China", "country": "China", "region": "APAC", "lat": 31.29, "lon": 120.58, "laborIndex": 0.17},
+        {"name": "Ho Chi Minh City, Vietnam", "country": "Vietnam", "region": "APAC", "lat": 10.82, "lon": 106.62, "laborIndex": 0.10},
+        {"name": "Hanoi, Vietnam", "country": "Vietnam", "region": "APAC", "lat": 21.02, "lon": 105.83, "laborIndex": 0.09},
+        {"name": "Bangalore, India", "country": "India", "region": "APAC", "lat": 12.97, "lon": 77.59, "laborIndex": 0.08},
+        {"name": "Stuttgart, Germany", "country": "Germany", "region": "EMEA", "lat": 48.77, "lon": 9.18, "laborIndex": 1.1},
+        {"name": "Tokyo, Japan", "country": "Japan", "region": "APAC", "lat": 35.67, "lon": 139.65, "laborIndex": 0.9},
+        {"name": "Seoul, South Korea", "country": "South Korea", "region": "APAC", "lat": 37.56, "lon": 126.97, "laborIndex": 0.85},
+        {"name": "Berlin, Germany", "country": "Germany", "region": "EMEA", "lat": 52.52, "lon": 13.40, "laborIndex": 1.0},
+        {"name": "Paris, France", "country": "France", "region": "EMEA", "lat": 48.85, "lon": 2.35, "laborIndex": 1.05},
+        {"name": "London, UK", "country": "UK", "region": "EMEA", "lat": 51.50, "lon": -0.12, "laborIndex": 1.1},
+        {"name": "Singapore", "country": "Singapore", "region": "APAC", "lat": 1.35, "lon": 103.81, "laborIndex": 1.15},
+        {"name": "Dubai, UAE", "country": "UAE", "region": "EMEA", "lat": 25.20, "lon": 55.27, "laborIndex": 0.7},
+        {"name": "Sao Paulo, Brazil", "country": "Brazil", "region": "LATAM", "lat": -23.55, "lon": -46.63, "laborIndex": 0.25}
     ],
     "job_titles": [
         {"id": "eng_sr", "name": "Senior Design Engineer", "baseRate": 95},
@@ -41,7 +55,8 @@
         {"id": "welder_robot", "name": "Robotic Weld Operator", "baseRate": 40},
         {"id": "assembly_tech", "name": "Electro-Mechanical Tech", "baseRate": 30},
         {"id": "qc_inspector", "name": "QC/CMM Inspector", "baseRate": 45},
-        {"id": "logistics_coord", "name": "Logistics Coordinator", "baseRate": 25}
+        {"id": "finisher", "name": "Deburr / Polishing Tech", "baseRate": 25},
+        {"id": "molder_tech", "name": "Molding Tech", "baseRate": 35}
     ],
     "processes": [
         {"id": "cnc_5axis", "name": "5-Axis CNC Milling", "rate": 120},
@@ -54,6 +69,9 @@
         {"id": "powder_coat", "name": "Powder Coating", "rate": 8},
         {"id": "passivate", "name": "Passivation (Citric/Nitric)", "rate": 5},
         {"id": "heat_treat", "name": "Vacuum Heat Treat", "rate": 20},
-        {"id": "laser_cut", "name": "Laser/Waterjet Cutting", "rate": 60}
+        {"id": "laser_cut", "name": "Laser/Waterjet Cutting", "rate": 60},
+        {"id": "edm_wire", "name": "Wire EDM", "rate": 90},
+        {"id": "bead_blast", "name": "Bead Blasting", "rate": 12},
+        {"id": "electropolish", "name": "Electropolishing", "rate": 18}
     ]
 }
