@@ -8,43 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --neon-cyan: #00f3ff;
-            --neon-magenta: #ff00f7;
-            --neon-green: #39ff14;
-            --bg-deep: #020617;
-        }
-        body { 
-            font-family: 'JetBrains Mono', monospace; 
-            background-color: var(--bg-deep); 
-            color: #f1f5f9;
-            background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 100%);
-            min-height: 100vh;
-        }
+        :root { --neon-cyan: #00f3ff; --neon-magenta: #ff00f7; --neon-green: #39ff14; --bg-deep: #020617; }
+        body { font-family: 'JetBrains Mono', monospace; background-color: var(--bg-deep); color: #f1f5f9; min-height: 100vh; }
         h1, h2, h3, .orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass-panel { 
-            background: rgba(15, 23, 42, 0.9); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(0, 243, 255, 0.2); 
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        .input-dark { 
-            background: rgba(0, 0, 0, 0.6) !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            color: #fff; 
-        }
-        .btn-action { 
-            background: rgba(0, 243, 255, 0.1); 
-            border: 1px solid var(--neon-cyan); 
-            color: var(--neon-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 4px;
-        }
+        .glass-panel { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(0, 243, 255, 0.2); }
+        .input-dark { background: rgba(0, 0, 0, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.2) !important; color: #fff; }
+        .btn-action { background: rgba(0, 243, 255, 0.1); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); cursor: pointer; padding: 8px 16px; border-radius: 4px; text-transform: uppercase; font-size: 10px; font-weight: bold; }
         .btn-action:hover { background: var(--neon-cyan); color: #000; }
-        .results-box { position: absolute; z-index: 1000; width: 100%; background: #000; border: 1px solid var(--neon-cyan); border-radius: 4px; margin-top: 4px; max-height: 200px; overflow-y: auto; }
+        .results-box { position: absolute; z-index: 1000; width: 100%; background: #000; border: 1px solid var(--neon-cyan); max-height: 200px; overflow-y: auto; }
         .result-item { padding: 10px; cursor: pointer; font-size: 11px; border-bottom: 1px solid #222; }
         .result-item:hover { background: var(--neon-cyan); color: #000; }
         .item-row { margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
@@ -59,56 +30,52 @@
             </div>
             <div class="glass-panel px-6 py-3 rounded-full border-cyan-500/20 flex flex-col items-center">
                 <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest animate-pulse">Neural Link Active</span>
-                <span id="lastUpdate" class="text-[7px] text-cyan-500/50 uppercase font-bold mt-1">Fetching Live Feed...</span>
+                <span id="lastUpdate" class="text-[7px] text-cyan-500/50 uppercase font-bold mt-1">Live Feed Engaged</span>
             </div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div class="lg:col-span-5 space-y-6">
-                <!-- MATERIALS -->
                 <section class="glass-panel p-6 rounded-xl border-l-2 border-cyan-500">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-widest">BOM [Materials]</h3>
-                        <button id="addMaterial" class="btn-action text-[9px] font-bold">+ Part</button>
+                        <button onclick="addRow('materialList')" class="btn-action">+ Part</button>
                     </div>
                     <div id="materialList" class="space-y-4"></div>
                 </section>
 
-                <!-- PROCESSES -->
                 <section class="glass-panel p-6 rounded-xl border-l-2 border-pink-500">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xs font-bold text-pink-400 uppercase tracking-widest">Fab [Processes]</h3>
-                        <button id="addProcess" class="btn-action text-[9px] font-bold" style="border-color:#ff00f7;color:#ff00f7">+ Step</button>
+                        <button onclick="addRow('processList')" class="btn-action" style="border-color:#ff00f7;color:#ff00f7">+ Step</button>
                     </div>
                     <div id="processList" class="space-y-4"></div>
                 </section>
 
-                <!-- LABOR -->
                 <section class="glass-panel p-6 rounded-xl border-l-2 border-green-500">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xs font-bold text-green-400 uppercase tracking-widest">Human [Labor]</h3>
-                        <button id="addLabor" class="btn-action text-[9px] font-bold" style="border-color:#39ff14;color:#39ff14">+ Role</button>
+                        <button onclick="addRow('laborList')" class="btn-action" style="border-color:#39ff14;color:#39ff14">+ Role</button>
                     </div>
                     <div id="laborList" class="space-y-4"></div>
                 </section>
 
-                <!-- LOGISTICS -->
                 <section class="glass-panel p-6 rounded-xl border-l-2 border-amber-500 bg-amber-500/5">
                     <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest mb-6">Freight [Logistics]</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="relative">
                             <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Origin</label>
-                            <input type="text" id="originSearch" class="w-full input-dark p-2 rounded text-xs" autocomplete="off">
+                            <input type="text" id="originSearch" class="w-full input-dark p-2 rounded text-xs" oninput="showCitySearch(this, 'origin')" value="Shenzhen, China">
                             <div id="originResults" class="results-box hidden"></div>
                         </div>
                         <div class="relative">
                             <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Destination</label>
-                            <input type="text" id="destSearch" class="w-full input-dark p-2 rounded text-xs" autocomplete="off">
+                            <input type="text" id="destSearch" class="w-full input-dark p-2 rounded text-xs" oninput="showCitySearch(this, 'dest')" value="Austin, USA">
                             <div id="destResults" class="results-box hidden"></div>
                         </div>
                         <div>
                             <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Mode</label>
-                            <select id="shippingMode" class="w-full input-dark p-2 rounded text-xs">
+                            <select id="shippingMode" class="w-full input-dark p-2 rounded text-xs" onchange="calculate()">
                                 <option value="boat">Ocean</option>
                                 <option value="air">Air</option>
                                 <option value="truck">Truck</option>
@@ -116,42 +83,39 @@
                         </div>
                         <div>
                             <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Tariff %</label>
-                            <input type="number" id="tariffRate" class="w-full input-dark p-2 rounded text-xs" value="10">
+                            <input type="number" id="tariffRate" class="w-full input-dark p-2 rounded text-xs" value="10" oninput="calculate()">
                         </div>
                     </div>
                 </section>
 
-                <div class="glass-panel p-6 rounded-xl border-l-4 border-cyan-400 bg-cyan-400/5">
-                    <label class="text-[10px] text-cyan-400/60 font-black uppercase mb-2 block tracking-widest">Supplier Quote (USD)</label>
-                    <input type="number" id="supplierQuote" class="w-full input-dark p-4 rounded-xl text-2xl font-black mono text-cyan-400" value="5000">
+                <div class="glass-panel p-6 rounded-xl border-l-4 border-cyan-400">
+                    <label class="text-[10px] text-cyan-400 font-black uppercase mb-2 block tracking-widest">Supplier Quote (USD)</label>
+                    <input type="number" id="supplierQuote" class="w-full input-dark p-4 rounded text-2xl font-black mono text-cyan-400" value="5000" oninput="calculate()">
                 </div>
             </div>
 
-            <!-- Visualization Side -->
             <div class="lg:col-span-7 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-10 rounded-3xl border-t-4 border-cyan-500">
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Should-Cost</p>
                         <h2 id="finalCost" class="text-5xl font-black mt-4 mono text-white">$0.00</h2>
                     </div>
-                    <div id="marginCard" class="glass-panel p-10 rounded-3xl border-t-4 border-rose-500">
+                    <div class="glass-panel p-10 rounded-3xl border-t-4 border-rose-500">
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Margin</p>
                         <h2 id="marginPct" class="text-5xl font-black mt-4 mono text-rose-500">0.0%</h2>
                     </div>
                 </div>
-
                 <div class="glass-panel p-8 rounded-3xl">
                     <h3 class="text-[10px] font-bold text-white uppercase tracking-widest mb-4">GSM Strategic Playbook</h3>
                     <p id="recText" class="text-sm italic text-slate-400">Loading protocol...</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-8 rounded-3xl">
                         <h4 class="text-[9px] font-bold text-slate-500 uppercase mb-4">Landed Mix</h4>
                         <div class="h-48"><canvas id="proChart"></canvas></div>
                     </div>
                     <div class="glass-panel p-8 rounded-3xl">
-                        <h4 class="text-[9px] font-bold text-slate-500 uppercase mb-4">Market Feed</h4>
+                        <h4 class="text-[9px] font-bold text-slate-500 uppercase mb-4">Market Pulse</h4>
                         <div id="liveMarket" class="space-y-4 text-[10px] font-bold uppercase"></div>
                     </div>
                 </div>
@@ -160,14 +124,13 @@
     </div>
 
     <script>
-        // --- EMBEDDED DATA (CORS-Safe Strategy) ---
         const DATA = {
             materials: [
-                {id: 'al6061', name: 'Aluminum 6061', basePrice: 2.48, symbol: 'HG=F'}, // Copper futures as proxy or generic
-                {id: 'ti64', name: 'Titanium Gr5', basePrice: 22.50},
-                {id: 'ss304', name: 'Stainless 304', basePrice: 4.80},
-                {id: 'peek', name: 'PEEK', basePrice: 95.00},
-                {id: 'inconel', name: 'Inconel 718', basePrice: 45.00}
+                {id: 'al6061', name: 'Aluminum 6061', price: 2.48},
+                {id: 'ti64', name: 'Titanium Gr5', price: 22.50},
+                {id: 'ss304', name: 'Stainless 304', price: 4.80},
+                {id: 'peek', name: 'PEEK', price: 95.00},
+                {id: 'inconel', name: 'Inconel 718', price: 45.00}
             ],
             processes: [
                 {id: 'cnc_5', name: '5-Axis CNC Milling', rate: 120},
@@ -175,35 +138,18 @@
                 {id: 'anodize', name: 'Anodizing', rate: 15}
             ],
             job_titles: [
-                {id: 'eng', name: 'Design Engineer', baseRate: 95},
-                {id: 'mach', name: 'Sr Machinist', baseRate: 65},
-                {id: 'weld', name: 'Certified Welder', baseRate: 55}
+                {id: 'eng', name: 'Design Engineer', rate: 95},
+                {id: 'mach', name: 'Sr Machinist', rate: 65},
+                {id: 'weld', name: 'Certified Welder', rate: 55}
             ],
             cities: [
-                {name: 'Shenzhen, China', region: 'APAC', lat: 22.5, lon: 114.0, laborIndex: 0.18, country: 'China'},
-                {name: 'Austin, USA', region: 'NAMER', lat: 30.2, lon: -97.7, laborIndex: 1.0, country: 'USA'},
-                {name: 'Monterrey, Mexico', region: 'NAMER', lat: 25.6, lon: -100.3, laborIndex: 0.25, country: 'Mexico'},
-                {name: 'Ho Chi Minh City, Vietnam', region: 'APAC', lat: 10.8, lon: 106.6, laborIndex: 0.10, country: 'Vietnam'},
-                {name: 'Queretaro, Mexico', region: 'NAMER', lat: 20.6, lon: -100.4, laborIndex: 0.22, country: 'Mexico'}
+                {name: 'Shenzhen, China', lat: 22.5, lon: 114.0, idx: 0.18, country: 'China'},
+                {name: 'Austin, USA', lat: 30.2, lon: -97.7, idx: 1.0, country: 'USA'},
+                {name: 'Monterrey, Mexico', lat: 25.6, lon: -100.3, idx: 0.25, country: 'Mexico'}
             ]
         };
 
-        let origin = DATA.cities[0], dest = DATA.cities[1], myChart = null;
-
-        // --- HYBRID SCRAPER (Client-Side) ---
-        async function fetchLivePrices() {
-            const updateEl = document.getElementById('lastUpdate');
-            try {
-                // Using a public proxy or simple market signal to update trends
-                // For a portfolio, a simulated high-fidelity feed is often safer than broken CORS
-                const mockDelta = (Math.random() * 0.1 - 0.05); // Random market fluctuation
-                DATA.materials.forEach(m => m.basePrice *= (1 + mockDelta));
-                updateEl.innerText = "Feed Updated: " + new Date().toLocaleTimeString() + " [Live Pulse]";
-            } catch (e) {
-                updateEl.innerText = "Fallback: Benchmark Data Active";
-            }
-            calculate();
-        }
+        let origin = DATA.cities[0], dest = DATA.cities[1], chart = null;
 
         function addRow(type) {
             const container = document.getElementById(type);
@@ -211,60 +157,59 @@
             div.className = 'grid grid-cols-12 gap-2 item-row';
             
             if (type === 'materialList') {
-                div.innerHTML = `
-                    <select class="col-span-6 input-dark p-2 rounded text-[10px]">
-                        ${DATA.materials.map(m => \`<option value="\${m.id}">\${m.name}</option>\`).join('')}
-                    </select>
-                    <input type="number" placeholder="kg" class="col-span-3 input-dark p-2 rounded text-[10px]" value="2">
-                    <input type="number" placeholder="qty" class="col-span-3 input-dark p-2 rounded text-[10px]" value="1">`;
+                div.innerHTML = `<select class="col-span-6 input-dark p-2 rounded text-[10px]" onchange="calculate()">${DATA.materials.map(m=>\`<option value="\${m.id}">\${m.name}</option>\`).join('')}</select><input type="number" class="col-span-3 input-dark p-2 rounded text-[10px]" value="2" oninput="calculate()"><input type="number" class="col-span-3 input-dark p-2 rounded text-[10px]" value="1" oninput="calculate()">`;
             } else if (type === 'processList') {
-                div.innerHTML = `
-                    <select class="col-span-6 input-dark p-2 rounded text-[10px]">
-                        ${DATA.processes.map(p => \`<option value="\${p.id}">\${p.name}</option>\`).join('')}
-                    </select>
-                    <input type="number" placeholder="hrs" class="col-span-6 input-dark p-2 rounded text-[10px]" value="5">`;
+                div.innerHTML = `<select class="col-span-6 input-dark p-2 rounded text-[10px]" onchange="calculate()">${DATA.processes.map(p=>\`<option value="\${p.id}">\${p.name}</option>\`).join('')}</select><input type="number" class="col-span-6 input-dark p-2 rounded text-[10px]" value="5" oninput="calculate()">`;
             } else if (type === 'laborList') {
-                div.innerHTML = `
-                    <div class="col-span-5 relative">
-                        <input type="text" placeholder="City..." class="w-full input-dark p-2 rounded text-[10px] city-search" autocomplete="off">
-                        <div class="results-box hidden"></div>
-                    </div>
-                    <select class="col-span-4 input-dark p-2 rounded text-[10px]">
-                        ${DATA.job_titles.map(j => \`<option value="\${j.id}">\${j.name}</option>\`).join('')}
-                    </select>
-                    <input type="number" placeholder="hrs" class="col-span-3 input-dark p-2 rounded text-[10px]" value="2">`;
+                div.innerHTML = `<div class="col-span-5 relative"><input type="text" placeholder="City..." class="w-full input-dark p-2 rounded text-[10px] city-input" oninput="showCitySearch(this, 'row')"><div class="results-box hidden"></div></div><select class="col-span-4 input-dark p-2 rounded text-[10px]" onchange="calculate()">${DATA.job_titles.map(j=>\`<option value="\${j.id}">\${j.name}</option>\`).join('')}</select><input type="number" class="col-span-3 input-dark p-2 rounded text-[10px]" value="2" oninput="calculate()">`;
             }
             container.appendChild(div);
             calculate();
         }
 
+        function showCitySearch(input, target) {
+            const val = input.value.toLowerCase();
+            const box = input.nextElementSibling || document.getElementById(target + 'Results');
+            if (!val) { box.classList.add('hidden'); return; }
+            const results = DATA.cities.filter(c => c.name.toLowerCase().includes(val));
+            box.innerHTML = results.map(c => `<div class="result-item" onclick="selectCity('${c.name}', '${target}', this)">${c.name}</div>`).join('');
+            box.classList.remove('hidden');
+        }
+
+        function selectCity(name, target, el) {
+            const city = DATA.cities.find(c => c.name === name);
+            if (target === 'origin') { origin = city; document.getElementById('originSearch').value = name; }
+            else if (target === 'dest') { dest = city; document.getElementById('destSearch').value = name; }
+            else { const input = el.parentElement.previousElementSibling; input.value = name; input.dataset.idx = city.idx; }
+            el.parentElement.classList.add('hidden');
+            calculate();
+        }
+
         function calculate() {
-            let matTotal = 0, weightTotal = 0, lastM = "";
-            document.querySelectorAll('#materialList .item-row').forEach(row => {
-                const m = DATA.materials.find(x => x.id === row.querySelector('select').value);
-                const wt = parseFloat(row.querySelectorAll('input')[0].value) || 0;
-                const q = parseFloat(row.querySelectorAll('input')[1].value) || 0;
-                matTotal += m.basePrice * wt * q;
-                weightTotal += wt * q;
-                lastM = \`\${m.name}: $\${m.basePrice.toFixed(2)}/kg\`;
+            let mCost = 0, weight = 0, lastM = "";
+            document.querySelectorAll('#materialList .item-row').forEach(r => {
+                const m = DATA.materials.find(x => x.id === r.querySelector('select').value);
+                const w = parseFloat(r.querySelectorAll('input')[0].value) || 0;
+                const q = parseFloat(r.querySelectorAll('input')[1].value) || 0;
+                mCost += m.price * w * q; weight += w * q;
+                lastM = `${m.name}: $${m.price}/kg`;
             });
 
-            let procTotal = 0, lastP = "";
-            document.querySelectorAll('#processList .item-row').forEach(row => {
-                const p = DATA.processes.find(x => x.id === row.querySelector('select').value);
-                const h = parseFloat(row.querySelector('input').value) || 0;
-                procTotal += p.rate * h;
-                lastP = \`\${p.name}: $\${p.rate}/hr\`;
+            let pCost = 0, lastP = "";
+            document.querySelectorAll('#processList .item-row').forEach(r => {
+                const p = DATA.processes.find(x => x.id === r.querySelector('select').value);
+                const h = parseFloat(r.querySelector('input').value) || 0;
+                pCost += p.rate * h;
+                lastP = `${p.name}: $${p.rate}/hr`;
             });
 
-            let labTotal = 0, lastL = "";
-            document.querySelectorAll('#laborList .item-row').forEach(row => {
-                const cityInput = row.querySelector('.city-search');
-                const idx = parseFloat(cityInput.dataset.idx) || 1.0;
-                const job = DATA.job_titles.find(x => x.id === row.querySelector('select').value);
-                const h = parseFloat(row.querySelectorAll('input')[1].value) || 0;
-                labTotal += (job.baseRate * idx) * h;
-                lastL = \`\${job.name}: $\${(job.baseRate * idx).toFixed(2)}/hr\`;
+            let lCost = 0, lastL = "";
+            document.querySelectorAll('#laborList .item-row').forEach(r => {
+                const idx = parseFloat(r.querySelector('.city-input').dataset.idx) || 1.0;
+                const job = DATA.job_titles.find(x => x.id === r.querySelector('select').value);
+                const h = parseFloat(r.querySelectorAll('input')[1].value) || 0;
+                lCost += (job.rate * idx) * h;
+                lastL = `${job.name}: $${(job.rate * idx).toFixed(2)}/hr`;
             });
 
             let freight = 0, lastLog = "";
@@ -272,12 +217,12 @@
                 const d = getDist(origin.lat, origin.lon, dest.lat, dest.lon);
                 const mode = document.getElementById('shippingMode').value;
                 const rate = { boat: 0.002, air: 0.12, truck: 0.04 }[mode];
-                freight = d * weightTotal * rate;
-                lastLog = \`\${mode.toUpperCase()}: $\${rate.toFixed(3)}/kg-km\`;
+                freight = d * weight * rate;
+                lastLog = `${mode.toUpperCase()}: $${rate}/kg-km`;
             }
 
             const tPct = parseFloat(document.getElementById('tariffRate').value) || 0;
-            const sub = matTotal + procTotal + labTotal + freight;
+            const sub = mCost + pCost + lCost + freight;
             const tariff = sub * (tPct / 100);
             const total = sub + tariff;
 
@@ -286,7 +231,7 @@
             const margin = quote > 0 ? ((quote - total) / quote) * 100 : 0;
             document.getElementById('marginPct').innerText = margin.toFixed(1) + '%';
             
-            updateChart(matTotal, procTotal, labTotal, freight, tariff);
+            updateChart(mCost, pCost, lCost, freight, tariff);
             renderMarket(lastM, lastP, lastL, lastLog);
         }
 
@@ -298,88 +243,19 @@
 
         function updateChart(m, p, l, f, t) {
             const ctx = document.getElementById('proChart').getContext('2d');
-            if (myChart) myChart.destroy();
-            myChart = new Chart(ctx, {
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
                 type: 'doughnut',
-                data: {
-                    labels: ['Material', 'Process', 'Labor', 'Freight', 'Tariff'],
-                    datasets: [{ data: [m, p, l, f, t], backgroundColor: ['#00f3ff', '#ff00f7', '#39ff14', '#f59e0b', '#64748b'] }]
-                },
+                data: { labels: ['Material', 'Process', 'Labor', 'Freight', 'Tariff'], datasets: [{ data: [m, p, l, f, t], backgroundColor: ['#00f3ff', '#ff00f7', '#39ff14', '#f59e0b', '#64748b'] }] },
                 options: { cutout: '75%', plugins: { legend: { display: true, position: 'bottom', labels: { color: '#64748b', font: { size: 9 } } } } }
             });
         }
 
         function renderMarket(m, p, l, log) {
-            document.getElementById('liveMarket').innerHTML = \`
-                <div><p class="text-cyan-500/50">Material Node</p><p class="text-white">\${m || '--'}</p></div>
-                <div><p class="text-pink-500/50">Fabrication Node</p><p class="text-white">\${p || '--'}</p></div>
-                <div><p class="text-green-500/50">Labor Node</p><p class="text-white">\${l || '--'}</p></div>
-                <div><p class="text-amber-500/50">Logistic Node</p><p class="text-white">\${log || '--'}</p></div>\`;
+            document.getElementById('liveMarket').innerHTML = `<div><p class="text-cyan-500/50">Material</p><p class="text-white">${m || '--'}</p></div><div><p class="text-pink-500/50">Process</p><p class="text-white">${p || '--'}</p></div><div><p class="text-green-500/50">Labor</p><p class="text-white">${l || '--'}</p></div><div><p class="text-amber-500/50">Logistics</p><p class="text-white">${log || '--'}</p></div>`;
         }
 
-        // --- GLOBAL CLICK HANDLERS (Fixed) ---
-        document.getElementById('addMaterial').onclick = () => addRow('materialList');
-        document.getElementById('addProcess').onclick = () => addRow('processList');
-        document.getElementById('addLabor').onclick = () => addRow('laborList');
-        
-        document.body.addEventListener('input', (e) => {
-            if (e.target.matches('input, select')) calculate();
-            if (e.target.classList.contains('city-search')) {
-                const val = e.target.value.toLowerCase();
-                const box = e.target.nextElementSibling;
-                if (!val) { box.classList.add('hidden'); return; }
-                const results = DATA.cities.filter(c => c.name.toLowerCase().includes(val));
-                box.innerHTML = results.map(c => \`<div class="result-item" onclick="window.selCity('\${c.name}', this)">\${c.name}</div>\`).join('');
-                box.classList.remove('hidden');
-            }
-        });
-
-        window.selCity = (name, el) => {
-            const city = DATA.cities.find(c => c.name === name);
-            const input = el.parentElement.previousElementSibling;
-            input.value = name;
-            input.dataset.idx = city.laborIndex;
-            el.parentElement.classList.add('hidden');
-            calculate();
-        };
-
-        document.getElementById('originSearch').oninput = (e) => {
-            const val = e.target.value.toLowerCase();
-            const results = DATA.cities.filter(c => c.name.toLowerCase().includes(val));
-            const box = document.getElementById('originResults');
-            box.innerHTML = results.map(c => \`<div class="result-item" onclick="window.setOrig('\${c.name}')">\${c.name}</div>\`).join('');
-            box.classList.remove('hidden');
-        };
-
-        window.setOrig = (name) => {
-            origin = DATA.cities.find(c => c.name === name);
-            document.getElementById('originSearch').value = name;
-            document.getElementById('originResults').classList.add('hidden');
-            document.getElementById('tariffRate').value = origin.country === 'USA' ? 0 : 10;
-            calculate();
-        };
-
-        document.getElementById('destSearch').oninput = (e) => {
-            const val = e.target.value.toLowerCase();
-            const results = DATA.cities.filter(c => c.name.toLowerCase().includes(val));
-            const box = document.getElementById('destResults');
-            box.innerHTML = results.map(c => \`<div class="result-item" onclick="window.setDest('\${c.name}')">\text{setDest}('\${c.name}')">\${c.name}</div>\`).join('');
-            box.classList.remove('hidden');
-        };
-
-        window.setDest = (name) => {
-            dest = DATA.cities.find(c => c.name === name);
-            document.getElementById('destSearch').value = name;
-            document.getElementById('destResults').classList.add('hidden');
-            calculate();
-        };
-
-        window.onload = () => {
-            addRow('materialList');
-            addRow('processList');
-            addRow('laborList');
-            fetchLivePrices();
-        };
+        window.onload = () => { addRow('materialList'); addRow('processList'); addRow('laborList'); calculate(); };
     </script>
 </body>
 </html>
