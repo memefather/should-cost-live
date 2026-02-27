@@ -3,140 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Should-Cost LIVE | Global Logistics & Engineering</title>
+    <title>SHOULD-COST LIVE // NEURAL SOURCING ENGINE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #050505; color: #e5e5e5; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .glass-panel { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .neon-text { text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
-        .input-dark { background: #111 !important; border: 1px solid #222 !important; color: white; }
-        .input-dark:focus { border-color: #38bdf8 !important; outline: none; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1); }
-        .btn-add { background: rgba(56, 189, 248, 0.1); border: 1px dashed #38bdf8; color: #38bdf8; }
-        .btn-add:hover { background: rgba(56, 189, 248, 0.2); }
-        .results-box { position: absolute; z-index: 50; width: 100%; background: #111; border: 1px solid #334155; border-radius: 8px; margin-top: 4px; max-height: 200px; overflow-y: auto; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
-        .result-item { padding: 8px 12px; cursor: pointer; font-size: 11px; border-bottom: 1px solid #222; }
-        .result-item:hover { background: #38bdf8; color: black; }
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff00f7;
+            --neon-green: #39ff14;
+            --bg-deep: #020617;
+            --panel-bg: rgba(15, 23, 42, 0.7);
+        }
+        body { 
+            font-family: 'JetBrains Mono', monospace; 
+            background-color: var(--bg-deep); 
+            color: #f1f5f9;
+            background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 100%);
+            min-height: 100vh;
+        }
+        h1, h2, h3, .orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass-panel { 
+            background: var(--panel-bg); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(0, 243, 255, 0.1); 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .neon-glow { text-shadow: 0 0 10px var(--neon-cyan); }
+        .neon-border-cyan { border: 1px solid var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+        .input-dark { 
+            background: rgba(0, 0, 0, 0.4) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+            color: #fff; 
+            transition: all 0.3s ease;
+        }
+        .input-dark:focus { 
+            border-color: var(--neon-cyan) !important; 
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            outline: none;
+        }
+        .btn-action { 
+            background: rgba(0, 243, 255, 0.1); 
+            border: 1px solid var(--neon-cyan); 
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .btn-action:hover { 
+            background: var(--neon-cyan); 
+            color: #000; 
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+        .results-box { position: absolute; z-index: 100; width: 100%; background: #000; border: 1px solid var(--neon-cyan); border-radius: 4px; margin-top: 4px; max-height: 200px; overflow-y: auto; }
+        .result-item { padding: 8px 12px; cursor: pointer; font-size: 11px; border-bottom: 1px solid #1e293b; }
+        .result-item:hover { background: var(--neon-cyan); color: #000; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); }
     </style>
 </head>
-<body class="p-4 lg:p-10">
+<body class="p-4 lg:p-8">
     <div class="max-w-7xl mx-auto">
-        <header class="flex justify-between items-end mb-10 border-b border-white/10 pb-6">
-            <div>
-                <h1 class="text-4xl font-bold tracking-tighter text-white neon-text uppercase">SHOULD-COST <span class="text-sky-500">LIVE</span></h1>
-                <p class="text-slate-400 mt-2 uppercase tracking-[0.3em] text-[10px] font-bold">Logistics & Manufacturing Intelligence</p>
+        <!-- Futuristic Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 border-b-2 border-cyan-500/30 pb-6 gap-4">
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl md:text-5xl font-black tracking-widest text-white neon-glow">SHOULD-COST // <span class="text-cyan-400">LIVE</span></h1>
+                <p class="text-cyan-500/60 mt-1 uppercase tracking-[0.5em] text-[10px] font-bold">Autonomous Supply Intelligence Protocol</p>
             </div>
-            <div class="text-right hidden md:block">
-                <div class="flex items-center gap-2 justify-end">
-                    <span class="w-2 h-2 rounded-full bg-sky-500 animate-ping"></span>
-                    <span class="text-[10px] font-bold text-white uppercase tracking-widest">Global Data Feed Active</span>
+            <div class="flex items-center gap-6 glass-panel px-6 py-3 rounded-full border-cyan-500/20">
+                <div class="text-right">
+                    <p class="text-[8px] uppercase text-cyan-500/50 font-bold tracking-tighter">System Status</p>
+                    <p class="text-[10px] font-bold text-cyan-400 mono uppercase tracking-widest">Neural Link Online</p>
                 </div>
+                <div class="w-3 h-3 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_10px_#00f3ff]"></div>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <!-- Left Inputs -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Builder Interface -->
             <div class="lg:col-span-5 space-y-6">
                 
-                <!-- BOM -->
-                <section class="glass-panel p-5 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-[10px] font-bold text-sky-500 uppercase tracking-widest">Mechanical BOM</h3>
-                        <button onclick="addRow('materialList')" class="btn-add px-2 py-1 rounded text-[9px] font-bold">+ Component</button>
+                <!-- BOM Panel -->
+                <section class="glass-panel p-6 rounded-xl border-l-2 border-cyan-500">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-widest">Mechanical BOM [Materials]</h3>
+                        <button onclick="addRow('materialList')" class="btn-action px-3 py-1 rounded text-[9px] font-bold">+ New Part</button>
                     </div>
-                    <div id="materialList" class="space-y-2"></div>
+                    <div id="materialList" class="space-y-4"></div>
                 </section>
 
-                <!-- Process -->
-                <section class="glass-panel p-5 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-[10px] font-bold text-purple-500 uppercase tracking-widest">Manufacturing Steps</h3>
-                        <button onclick="addRow('processList')" class="btn-add px-2 py-1 rounded text-[9px] font-bold">+ Process</button>
+                <!-- Process Panel -->
+                <section class="glass-panel p-6 rounded-xl border-l-2 border-magenta-500">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xs font-bold text-pink-400 uppercase tracking-widest">Process Stacking [Fabrication]</h3>
+                        <button onclick="addRow('processList')" class="btn-action border-pink-500 text-pink-500 px-3 py-1 rounded text-[9px] font-bold">+ New Step</button>
                     </div>
-                    <div id="processList" class="space-y-2"></div>
+                    <div id="processList" class="space-y-4"></div>
                 </section>
 
-                <!-- Labor -->
-                <section class="glass-panel p-5 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Regional Labor</h3>
-                        <button onclick="addRow('laborList')" class="btn-add px-2 py-1 rounded text-[9px] font-bold">+ Role</button>
+                <!-- Labor Panel -->
+                <section class="glass-panel p-6 rounded-xl border-l-2 border-green-500">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xs font-bold text-green-400 uppercase tracking-widest">Human Capital [Regional Labor]</h3>
+                        <button onclick="addRow('laborList')" class="btn-action border-green-500 text-green-500 px-3 py-1 rounded text-[9px] font-bold">+ New Role</button>
                     </div>
-                    <div id="laborList" class="space-y-2"></div>
+                    <div id="laborList" class="space-y-4"></div>
                 </section>
 
-                <!-- Logistics -->
-                <section class="glass-panel p-5 rounded-2xl border-emerald-500/20 bg-emerald-500/5">
-                    <h3 class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-4">Logistics Strategy</h3>
+                <!-- Logistics Panel -->
+                <section class="glass-panel p-6 rounded-xl border-l-2 border-amber-500 bg-amber-500/5">
+                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest mb-6">Freight Vector [Logistics]</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="relative">
-                            <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Origin City</label>
-                            <input type="text" id="originSearch" class="w-full input-dark p-2 rounded-lg text-xs" oninput="searchCities(this, 'origin')">
+                            <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Origin City</label>
+                            <input type="text" id="originSearch" class="w-full input-dark p-2.5 rounded-lg text-xs" oninput="searchCities(this, 'origin')">
                             <div id="originResults" class="results-box hidden"></div>
                         </div>
                         <div class="relative">
-                            <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Destination</label>
-                            <input type="text" id="destSearch" class="w-full input-dark p-2 rounded-lg text-xs" oninput="searchCities(this, 'dest')">
+                            <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Destination</label>
+                            <input type="text" id="destSearch" class="w-full input-dark p-2.5 rounded-lg text-xs" oninput="searchCities(this, 'dest')">
                             <div id="destResults" class="results-box hidden"></div>
                         </div>
                         <div>
-                            <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Freight Mode</label>
-                            <select id="shippingMode" class="w-full input-dark p-2 rounded-lg text-xs" onchange="calculate()">
-                                <option value="boat">Ocean (Boat)</option>
-                                <option value="air">Air Cargo</option>
-                                <option value="truck">Ground (Trucking)</option>
+                            <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Transport Mode</label>
+                            <select id="shippingMode" class="w-full input-dark p-2.5 rounded-lg text-xs" onchange="calculate()">
+                                <option value="boat">Ocean Vessel (Long Haul)</option>
+                                <option value="air">Aerial Freight (Expedited)</option>
+                                <option value="truck">Ground Transport (Regional)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Tariff (%)</label>
-                            <input type="number" id="tariffRate" class="w-full input-dark p-2 rounded-lg text-xs" value="10" oninput="calculate()">
+                            <label class="text-[9px] uppercase text-slate-500 font-bold block mb-1">Tariff Override (%)</label>
+                            <input type="number" id="tariffRate" class="w-full input-dark p-2.5 rounded-lg text-xs" value="10" oninput="calculate()">
                         </div>
                     </div>
                 </section>
 
-                <!-- Custom/Misc -->
-                <section class="glass-panel p-5 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-[10px] font-bold text-pink-500 uppercase tracking-widest">Misc Costs (Tooling/Sensors)</h3>
-                        <button onclick="addRow('customList')" class="btn-add px-2 py-1 rounded text-[9px] font-bold">+ Custom</button>
+                <!-- Custom Items -->
+                <section class="glass-panel p-6 rounded-xl border-l-2 border-white/20">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">External Assets [Misc]</h3>
+                        <button onclick="addRow('customList')" class="btn-action border-slate-500 text-slate-500 px-3 py-1 rounded text-[9px] font-bold">+ New Entry</button>
                     </div>
-                    <div id="customList" class="space-y-2"></div>
+                    <div id="customList" class="space-y-4"></div>
                 </section>
 
-                <div class="glass-panel p-5 rounded-2xl border-sky-500/20 bg-sky-500/5">
-                    <label class="text-[10px] text-slate-500 font-bold uppercase mb-1 block tracking-widest">Official Supplier Quote (USD)</label>
-                    <input type="number" id="supplierQuote" class="w-full input-dark p-3 rounded-xl text-xl font-bold mono" value="2500" oninput="calculate()">
+                <!-- Supplier Quote -->
+                <div class="glass-panel p-6 rounded-xl border-l-4 border-cyan-400 bg-cyan-400/5">
+                    <label class="text-[10px] text-cyan-400/60 font-black uppercase mb-2 block tracking-[0.2em]">External Supplier Quote (USD)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 font-bold">$</span>
+                        <input type="number" id="supplierQuote" class="w-full input-dark pl-10 p-4 rounded-xl text-2xl font-black mono text-cyan-400" value="5000" oninput="calculate()">
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Output -->
-            <div class="lg:col-span-7 space-y-8">
+            <!-- Visualization Interface -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Main KPI Core -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-8 rounded-3xl border-l-8 border-sky-500">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">All-In Landed Should-Cost</p>
-                        <h2 id="finalCost" class="text-5xl font-black mt-2 mono">$0.00</h2>
+                    <div class="glass-panel p-10 rounded-3xl border-t-4 border-cyan-500 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Total Landed Should-Cost</p>
+                        <h2 id="finalCost" class="text-6xl font-black mt-4 mono text-white tracking-tighter">$0.00</h2>
+                        <div class="mt-6 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-cyan-500 rounded-full"></span>
+                            <span class="text-[8px] uppercase font-bold text-cyan-500/70">Engineered Integrity Verified</span>
+                        </div>
                     </div>
-                    <div id="marginCard" class="glass-panel p-8 rounded-3xl border-l-8 border-rose-500">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Negotiated Margin</p>
-                        <h2 id="marginPct" class="text-5xl font-black mt-2 mono text-rose-500">0.0%</h2>
+                    <div id="marginCard" class="glass-panel p-10 rounded-3xl border-t-4 border-rose-500 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl"></div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Negotiable Delta [Margin]</p>
+                        <h2 id="marginPct" class="text-6xl font-black mt-4 mono text-rose-500 tracking-tighter">0.0%</h2>
+                        <p id="marginStatus" class="text-[8px] text-rose-500/70 mt-6 font-bold uppercase tracking-widest">Calculation Pending</p>
                     </div>
                 </div>
 
-                <div class="glass-panel p-6 rounded-3xl bg-white/5 border border-white/10">
-                    <h3 class="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-3">GSM Negotiation Playbook</h3>
-                    <p id="recText" class="text-sm leading-relaxed text-slate-300 italic">Analyzing inputs...</p>
+                <!-- Negotiation Protocol Panel -->
+                <div class="glass-panel p-8 rounded-3xl border-b-2 border-cyan-500/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-1.5 h-6 bg-cyan-500"></div>
+                        <h3 class="text-xs font-bold text-white uppercase tracking-[0.3em]">GSM Strategic Playbook</h3>
+                    </div>
+                    <p id="recText" class="text-sm leading-relaxed text-slate-400 italic font-medium">System ready for scenario analysis...</p>
                 </div>
 
+                <!-- Analysis Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <h4 class="text-[9px] font-bold text-slate-500 uppercase mb-4 tracking-widest">Cost Allocation</h4>
-                        <div class="h-44"><canvas id="proChart"></canvas></div>
+                    <!-- Chart -->
+                    <div class="glass-panel p-8 rounded-3xl">
+                        <h4 class="text-[9px] font-bold text-slate-500 uppercase mb-6 tracking-widest flex justify-between">
+                            Landed Cost Mix <span class="text-cyan-400/50">Doughnut Analysis</span>
+                        </h4>
+                        <div class="h-56 relative"><canvas id="proChart"></canvas></div>
                     </div>
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <h4 class="text-[9px] font-bold text-slate-500 uppercase mb-4 tracking-widest">LME Market Trends</h4>
-                        <div id="liveMarket" class="space-y-3 text-[10px] font-bold"></div>
+                    
+                    <!-- Market Feed -->
+                    <div class="glass-panel p-8 rounded-3xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h4 class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Global Market Pulse</h4>
+                            <span class="text-[8px] text-cyan-500 font-bold uppercase animate-pulse">Live Tracking</span>
+                        </div>
+                        <div id="liveMarket" class="space-y-4">
+                            <!-- Feeds injected here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Expanded Data Feed (Tariff/Duty) -->
+                <div class="glass-panel p-6 rounded-2xl border-l-2 border-amber-500/50 bg-amber-500/5">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-[9px] font-bold text-amber-500 uppercase tracking-widest mb-1">Calculated Tariff/Duty</p>
+                            <h3 id="tariffTotal" class="text-2xl font-bold mono text-white">$0.00</h3>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Est. Logistics Subtotal</p>
+                            <h3 id="freightTotal" class="text-xl font-bold mono text-slate-400">$0.00</h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -145,8 +230,8 @@
 
     <script>
         let DATA = { materials: [], cities: [], job_titles: [], processes: [] };
-        let originCity = null;
-        let destCity = null;
+        let originCity = null, destCity = null;
+        let activeUnits = { mat: {}, lab: {}, proc: {}, log: {} };
 
         async function init() {
             const res = await fetch('data/benchmarks.json');
@@ -161,40 +246,66 @@
             addRow('processList');
             addRow('laborList');
             calculate();
-            renderMarket();
         }
 
         function addRow(type) {
             const container = document.getElementById(type);
             const div = document.createElement('div');
-            div.className = 'grid grid-cols-12 gap-2 item-row';
+            div.className = 'grid grid-cols-12 gap-3 item-row group';
             
             if (type === 'materialList') {
                 div.innerHTML = `
-                    <select class="col-span-6 input-dark p-2 rounded-lg text-[10px]" onchange="calculate()">
-                        ${DATA.materials.map(m => `<option value="${m.id}">${m.name}</option>`).join('')}
-                    </select>
-                    <input type="number" placeholder="kg" class="col-span-3 input-dark p-2 rounded-lg text-[10px]" value="2" oninput="calculate()">
-                    <input type="number" placeholder="qty" class="col-span-3 input-dark p-2 rounded-lg text-[10px]" value="1" oninput="calculate()">`;
+                    <div class="col-span-6 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Material Selection</label>
+                        <select class="w-full input-dark p-2 rounded-lg text-[10px]" onchange="calculate()">
+                            ${DATA.materials.map(m => \`<option value="\${m.id}">\${m.name}</option>\`).join('')}
+                        </select>
+                    </div>
+                    <div class="col-span-3 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Net Weight (kg)</label>
+                        <input type="number" class="w-full input-dark p-2 rounded-lg text-[10px]" value="2.0" oninput="calculate()">
+                    </div>
+                    <div class="col-span-3 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Total Qty</label>
+                        <input type="number" class="w-full input-dark p-2 rounded-lg text-[10px]" value="1" oninput="calculate()">
+                    </div>`;
             } else if (type === 'processList') {
                 div.innerHTML = `
-                    <select class="col-span-6 input-dark p-2 rounded-lg text-[10px]" onchange="calculate()">
-                        ${DATA.processes.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
-                    </select>
-                    <input type="number" placeholder="hrs" class="col-span-6 input-dark p-2 rounded-lg text-[10px]" value="5" oninput="calculate()">`;
+                    <div class="col-span-6 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Fabrication Process</label>
+                        <select class="w-full input-dark p-2 rounded-lg text-[10px]" onchange="calculate()">
+                            ${DATA.processes.map(p => \`<option value="\${p.id}">\${p.name}</option>\`).join('')}
+                        </select>
+                    </div>
+                    <div class="col-span-6 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Cycle Time (Hrs) / Units</label>
+                        <input type="number" class="w-full input-dark p-2 rounded-lg text-[10px]" value="5.0" step="0.5" oninput="calculate()">
+                    </div>`;
             } else if (type === 'laborList') {
                 div.innerHTML = `
-                    <div class="col-span-6 relative">
-                        <input type="text" placeholder="City..." class="w-full input-dark p-2 rounded-lg text-[10px] city-search" oninput="searchCities(this, 'row')">
+                    <div class="col-span-5 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Location Search</label>
+                        <input type="text" placeholder="Search City..." class="w-full input-dark p-2 rounded-lg text-[10px] city-search" oninput="searchCities(this, 'row')">
                         <div class="results-box hidden"></div>
                     </div>
-                    <select class="col-span-4 input-dark p-2 rounded-lg text-[10px]" onchange="calculate()">
-                        ${DATA.job_titles.map(j => `<option value="${j.id}">${j.name}</option>`).join('')}
-                    </select>
-                    <input type="number" placeholder="hrs" class="col-span-2 input-dark p-2 rounded-lg text-[10px]" value="2" oninput="calculate()">`;
+                    <div class="col-span-4 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Specialized Role</label>
+                        <select class="w-full input-dark p-2 rounded-lg text-[10px]" onchange="calculate()">
+                            ${DATA.job_titles.map(j => \`<option value="\${j.id}">\${j.name}</option>\`).join('')}
+                        </select>
+                    </div>
+                    <div class="col-span-3 relative">
+                        <label class="text-[7px] text-slate-500 font-bold absolute -top-1 left-2 bg-slate-900 px-1 uppercase">Labor Time (Hrs)</label>
+                        <input type="number" class="w-full input-dark p-2 rounded-lg text-[10px]" value="2.0" oninput="calculate()">
+                    </div>`;
             } else if (type === 'customList') {
-                div.innerHTML = `<input type="text" placeholder="Item..." class="col-span-8 input-dark p-2 rounded-lg text-[10px]">
-                                 <input type="number" placeholder="$" class="col-span-4 input-dark p-2 rounded-lg text-[10px]" value="0" oninput="calculate()">`;
+                div.innerHTML = `
+                    <div class="col-span-8 relative">
+                        <input type="text" placeholder="Unique Asset Name" class="w-full input-dark p-2 rounded-lg text-[10px]">
+                    </div>
+                    <div class="col-span-4 relative">
+                        <input type="number" placeholder="Cost ($)" class="w-full input-dark p-2 rounded-lg text-[10px]" value="0" oninput="calculate()">
+                    </div>`;
             }
             container.appendChild(div);
             calculate();
@@ -202,10 +313,11 @@
 
         function searchCities(input, target) {
             const val = input.value.toLowerCase();
+            if (!val) { input.nextElementSibling.classList.add('hidden'); return; }
             const results = DATA.cities.filter(c => c.name.toLowerCase().includes(val));
             const box = input.nextElementSibling || document.getElementById(target + 'Results');
-            box.innerHTML = results.map(c => `<div class="result-item" onclick="selectCity('${c.name}', '${target}', this)">${c.name}</div>`).join('');
-            box.classList.toggle('hidden', results.length === 0 || val === '');
+            box.innerHTML = results.map(c => \`<div class="result-item" onclick="selectCity('\${c.name}', '\${target}', this)">\${c.name}</div>\`).join('');
+            box.classList.toggle('hidden', results.length === 0);
         }
 
         function selectCity(name, target, el) {
@@ -216,34 +328,41 @@
                 const input = el.parentElement.previousElementSibling;
                 input.value = name; 
                 input.dataset.laborIndex = city.laborIndex; 
+                input.dataset.cityName = city.name;
             }
             el.parentElement.classList.add('hidden');
             calculate();
         }
 
         function calculate() {
-            let matTotal = 0, weightTotal = 0;
+            let matTotal = 0, weightTotal = 0, lastMat = "";
             document.querySelectorAll('#materialList .item-row').forEach(row => {
                 const m = DATA.materials.find(mat => mat.id === row.querySelector('select').value);
                 const wt = parseFloat(row.querySelectorAll('input')[0].value) || 0;
                 const qty = parseFloat(row.querySelectorAll('input')[1].value) || 0;
                 matTotal += m.basePrice * wt * qty;
                 weightTotal += wt * qty;
+                lastMat = m.name + ": $" + m.basePrice.toFixed(2) + "/kg";
             });
 
-            let procTotal = 0;
+            let procTotal = 0, lastProc = "";
             document.querySelectorAll('#processList .item-row').forEach(row => {
                 const p = DATA.processes.find(pr => pr.id === row.querySelector('select').value);
                 const hrs = parseFloat(row.querySelector('input').value) || 0;
                 procTotal += p.rate * hrs;
+                lastProc = p.name + ": $" + p.rate.toFixed(0) + "/hr";
             });
 
-            let laborTotal = 0;
+            let laborTotal = 0, lastLab = "";
             document.querySelectorAll('#laborList .item-row').forEach(row => {
-                const idx = parseFloat(row.querySelector('.city-search').dataset.laborIndex) || 1.0;
+                const searchInput = row.querySelector('.city-search');
+                const idx = parseFloat(searchInput.dataset.laborIndex) || 1.0;
+                const city = searchInput.dataset.cityName || "Global Avg";
                 const job = DATA.job_titles.find(j => j.id === row.querySelector('select').value);
                 const hrs = parseFloat(row.querySelectorAll('input')[1].value) || 0;
-                laborTotal += job.baseRate * idx * hrs;
+                const rate = job.baseRate * idx;
+                laborTotal += rate * hrs;
+                lastLab = \`\${job.name} (\${city}): $\${rate.toFixed(2)}/hr\`;
             });
 
             let customTotal = 0;
@@ -251,7 +370,7 @@
                 customTotal += parseFloat(row.querySelectorAll('input')[1].value) || 0;
             });
 
-            let freight = 0;
+            let freight = 0, lastLog = "";
             if (originCity && destCity) {
                 const dist = getDist(originCity.lat, originCity.lon, destCity.lat, destCity.lon);
                 const mode = document.getElementById('shippingMode').value;
@@ -259,26 +378,27 @@
                     document.getElementById('shippingMode').value = 'air';
                     calculate(); return;
                 }
-                const rate = { boat: 0.005, air: 0.15, truck: 0.05 }[mode];
+                const rate = { boat: 0.002, air: 0.12, truck: 0.04 }[mode];
                 freight = dist * weightTotal * rate;
+                lastLog = \`\${mode.toUpperCase()} (\${dist.toFixed(0)}km): $\${rate.toFixed(3)}/kg-km\`;
             }
 
+            const tariffPct = parseFloat(document.getElementById('tariffRate').value) || 0;
             const sub = matTotal + procTotal + laborTotal + customTotal + freight;
-            const tRate = parseFloat(document.getElementById('tariffRate').value) || 0;
-            const total = sub * (1 + tRate / 100);
+            const tariffAmt = sub * (tariffPct / 100);
+            const total = sub + tariffAmt;
 
             document.getElementById('finalCost').innerText = '$' + total.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('freightTotal').innerText = '$' + freight.toLocaleString();
+            document.getElementById('tariffTotal').innerText = '$' + tariffAmt.toLocaleString();
+            
             const quote = parseFloat(document.getElementById('supplierQuote').value) || 0;
             const margin = quote > 0 ? ((quote - total) / quote) * 100 : 0;
             document.getElementById('marginPct').innerText = margin.toFixed(1) + '%';
             
-            const card = document.getElementById('marginCard');
-            const rec = document.getElementById('recText');
-            if(margin > 30) { card.style.borderColor = '#f43f5e'; rec.innerText = 'CRITICAL OVERCHARGE. Audit cycle times. High delta indicates excessive risk premium.'; }
-            else if(margin > 15) { card.style.borderColor = '#f59e0b'; rec.innerText = 'NEGOTIABLE. Target 12-15% via tiered pricing or material pass-throughs.'; }
-            else { card.style.borderColor = '#10b981'; rec.innerText = 'FAIR MARKET. Focus on quality and lead-time buffering.'; }
-
-            updateVisuals(matTotal, procTotal, laborTotal, freight + (sub * tRate / 100));
+            updateVisuals(matTotal, procTotal, laborTotal, freight, tariffAmt);
+            updateRec(margin);
+            renderMarket(lastMat, lastProc, lastLab, lastLog);
         }
 
         function getDist(la1, lo1, la2, lo2) {
@@ -287,21 +407,42 @@
             return 12742 * Math.asin(Math.sqrt(a));
         }
 
-        function updateVisuals(m, p, l, f) {
+        function updateVisuals(m, p, l, f, t) {
             const ctx = document.getElementById('proChart').getContext('2d');
             if (window.myChart) window.myChart.destroy();
             window.myChart = new Chart(ctx, {
                 type: 'doughnut',
-                data: { labels: ['Mat', 'Proc', 'Lab', 'Log'], datasets: [{ data: [m, p, l, f], backgroundColor: ['#0ea5e9', '#a855f7', '#10b981', '#f59e0b'] }] },
-                options: { cutout: '75%', plugins: { legend: { display: false } } }
+                data: { labels: ['Material', 'Process', 'Labor', 'Logistic', 'Tariff'], datasets: [{ data: [m, p, l, f, t], backgroundColor: ['#00f3ff', '#ff00f7', '#39ff14', '#f59e0b', '#64748b'] }] },
+                options: { cutout: '75%', plugins: { legend: { display: true, position: 'bottom', labels: { color: '#64748b', font: { size: 9 }, boxWidth: 10 } } } }
             });
         }
 
-        function renderMarket() {
-            document.getElementById('liveMarket').innerHTML = `
-                <div class="flex justify-between"><span>AL6061-T6</span><span class="text-sky-400">$2.48/kg</span></div>
-                <div class="flex justify-between"><span>TI-64-V</span><span class="text-sky-400">$22.50/kg</span></div>
-                <div class="flex justify-between"><span>USD/CNY</span><span class="text-emerald-400">7.22</span></div>`;
+        function updateRec(m) {
+            const r = document.getElementById('recText');
+            if (m > 30) r.innerText = 'CRITICAL OVERCHARGE. Delta identified in machining cycle-time vs. regional indices. Recommendation: Request audit of sub-tier NRE allocation. Target 12-15% margin.';
+            else if (m > 15) r.innerText = 'NEGOTIABLE. Current pricing sits 8% above optimized benchmark. Strategy: Leverage volume commitment to reduce piece-price. Link raw material to LME pass-through.';
+            else if (m > 0) r.innerText = 'HEALTHY ALIGNMENT. Fair market engagement detected. Focus on supply security and logistics optimization.';
+            else r.innerText = 'UNSUSTAINABLE / UNDERBID. Supplier risk identified. Re-verify BOM compliance to prevent mid-cycle Force Majeure requests.';
+        }
+
+        function renderMarket(m, p, l, log) {
+            document.getElementById('liveMarket').innerHTML = \`
+                <div class="flex flex-col border-b border-white/5 pb-2">
+                    <span class="text-[7px] text-cyan-500/50 uppercase">Active Part Feed</span>
+                    <span class="text-white mono tracking-tighter">\${m || '---'}</span>
+                </div>
+                <div class="flex flex-col border-b border-white/5 pb-2">
+                    <span class="text-[7px] text-pink-500/50 uppercase">Active Process Index</span>
+                    <span class="text-white mono tracking-tighter">\${p || '---'}</span>
+                </div>
+                <div class="flex flex-col border-b border-white/5 pb-2">
+                    <span class="text-[7px] text-green-500/50 uppercase">Active Labor Node</span>
+                    <span class="text-white mono tracking-tighter">\${l || '---'}</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[7px] text-amber-500/50 uppercase">Active Logistics Vector</span>
+                    <span class="text-white mono tracking-tighter">\${log || '---'}</span>
+                </div>\`;
         }
 
         init();
