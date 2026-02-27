@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Should-Cost PRO | Engineering-Grade Sourcing</title>
+    <title>Should-Cost LIVE | Precision Sourcing Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -16,11 +16,13 @@
         .input-dark:focus { border-color: #38bdf8 !important; outline: none; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1); }
         .btn-add { background: rgba(56, 189, 248, 0.1); border: 1px dashed #38bdf8; color: #38bdf8; }
         .btn-add:hover { background: rgba(56, 189, 248, 0.2); }
+        .search-results { position: absolute; top: 100%; left: 0; right: 0; z-index: 50; background: #1a1a1a; border: 1px solid #333; border-top: none; max-height: 200px; overflow-y: auto; }
+        .search-item { padding: 8px 12px; cursor: pointer; font-size: 12px; }
+        .search-item:hover { background: #38bdf8; color: black; }
     </style>
 </head>
 <body class="p-6 lg:p-12">
     <div class="max-w-7xl mx-auto">
-        <!-- Header -->
         <header class="flex justify-between items-end mb-12 border-b border-white/10 pb-8">
             <div>
                 <h1 class="text-5xl font-bold tracking-tighter text-white neon-text uppercase">SHOULD-COST <span class="text-sky-500">LIVE</span></h1>
@@ -39,130 +41,144 @@
             <!-- Builder Sidebar -->
             <div class="lg:col-span-5 space-y-8">
                 
-                <!-- 1. Multi-Material BOM -->
+                <!-- Materials Section -->
                 <section class="glass-panel p-6 rounded-3xl">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xs font-bold text-sky-500 uppercase tracking-widest">Complex BOM Selection</h3>
-                        <button onclick="addRow('materialList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Component</button>
+                        <h3 class="text-xs font-bold text-sky-500 uppercase tracking-widest">Material BOM</h3>
+                        <button onclick="addRow('materialList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Material</button>
                     </div>
-                    <div id="materialList" class="space-y-3">
-                        <div class="grid grid-cols-12 gap-2 material-row">
-                            <select class="col-span-6 input-dark p-2 rounded-lg text-xs" onchange="calculate()">
-                                <option value="al6061">AL-6061-T6 (Aluminum)</option>
-                                <option value="ti64">TI-64-V (Titanium)</option>
-                                <option value="ss304">SS-304 (Stainless)</option>
-                            </select>
+                    <div id="materialList" class="space-y-4">
+                        <!-- Initial Row -->
+                        <div class="grid grid-cols-12 gap-2 material-row items-end">
+                            <div class="col-span-6">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Material Type</label>
+                                <select class="w-full input-dark p-2 rounded-lg text-xs" onchange="calculate()">
+                                    <!-- Populated by JS -->
+                                </select>
+                            </div>
                             <div class="col-span-3">
                                 <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Weight (kg)</label>
-                                <input type="number" placeholder="kg" class="w-full input-dark p-2 rounded-lg text-xs" value="2.5" oninput="calculate()">
+                                <input type="number" step="0.01" class="w-full input-dark p-2 rounded-lg text-xs" value="1.00" oninput="calculate()">
                             </div>
                             <div class="col-span-3">
-                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Quantity</label>
-                                <input type="number" placeholder="Qty" class="w-full input-dark p-2 rounded-lg text-xs" value="1" oninput="calculate()">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Qty</label>
+                                <input type="number" class="w-full input-dark p-2 rounded-lg text-xs" value="1" oninput="calculate()">
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- 2. Multi-Process Stacking -->
+                <!-- Processes Section -->
                 <section class="glass-panel p-6 rounded-3xl">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xs font-bold text-purple-500 uppercase tracking-widest">Process Stacking</h3>
-                        <button onclick="addRow('processList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Step</button>
+                        <h3 class="text-xs font-bold text-purple-500 uppercase tracking-widest">Processes</h3>
+                        <button onclick="addRow('processList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Process</button>
                     </div>
-                    <div id="processList" class="space-y-3">
-                        <div class="grid grid-cols-12 gap-2 process-row">
-                            <select class="col-span-6 input-dark p-2 rounded-lg text-xs" onchange="calculate()">
-                                <option value="cnc_5axis">5-Axis CNC Milling</option>
-                                <option value="anodize">Type III Hardcoat Anodize</option>
-                            </select>
-                            <div class="col-span-6">
-                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Hours / Units</label>
-                                <input type="number" placeholder="Hrs/Units" class="w-full input-dark p-2 rounded-lg text-xs" value="4.5" oninput="calculate()">
+                    <div id="processList" class="space-y-4">
+                        <div class="grid grid-cols-12 gap-2 process-row items-end">
+                            <div class="col-span-8">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Process Type</label>
+                                <select class="w-full input-dark p-2 rounded-lg text-xs" onchange="calculate()">
+                                    <!-- Populated by JS -->
+                                </select>
+                            </div>
+                            <div class="col-span-4">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Hrs / Units</label>
+                                <input type="number" step="0.1" class="w-full input-dark p-2 rounded-lg text-xs" value="1.0" oninput="calculate()">
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- 3. Regional Labor Rates -->
+                <!-- Labor Section -->
                 <section class="glass-panel p-6 rounded-3xl">
-                    <h3 class="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-4">Labor Distribution</h3>
-                    <div id="laborList" class="space-y-3">
-                        <div class="grid grid-cols-12 gap-2 labor-row">
-                            <div class="col-span-5">
-                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Geography / Zip</label>
-                                <input type="text" placeholder="Zip or Country" class="w-full input-dark p-2 rounded-lg text-xs" value="USA (90245)" oninput="calculate()">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xs font-bold text-emerald-500 uppercase tracking-widest">Labor Distribution</h3>
+                        <button onclick="addRow('laborList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Role</button>
+                    </div>
+                    <div id="laborList" class="space-y-4">
+                        <div class="grid grid-cols-12 gap-2 labor-row items-end">
+                            <div class="col-span-5 relative">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">City / Region</label>
+                                <input type="text" placeholder="Start typing city..." class="city-search w-full input-dark p-2 rounded-lg text-xs" value="Austin, USA" oninput="handleSearch(this)">
+                                <div class="search-results hidden"></div>
                             </div>
                             <div class="col-span-4">
                                 <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Job Title</label>
                                 <select class="w-full input-dark p-2 rounded-lg text-xs" onchange="calculate()">
-                                    <option value="sr_machinist">Sr Machinist</option>
-                                    <option value="assembly">Assembly Tech</option>
-                                    <option value="eng_npi">NPI Engineer</option>
+                                    <!-- Populated by JS -->
                                 </select>
                             </div>
                             <div class="col-span-3">
-                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Total Hours</label>
-                                <input type="number" placeholder="Hrs" class="w-full input-dark p-2 rounded-lg text-xs" value="8" oninput="calculate()">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Hours</label>
+                                <input type="number" step="0.5" class="w-full input-dark p-2 rounded-lg text-xs" value="1.0" oninput="calculate()">
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- 4. The Margin Sniffer Input -->
+                <!-- Additional Items Section -->
+                <section class="glass-panel p-6 rounded-3xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest">Add-ons / Custom Lines</h3>
+                        <button onclick="addRow('customList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Line</button>
+                    </div>
+                    <div id="customList" class="space-y-4">
+                        <div class="grid grid-cols-12 gap-2 custom-row items-end">
+                            <div class="col-span-8">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Item Description</label>
+                                <input type="text" placeholder="Custom part/service..." class="w-full input-dark p-2 rounded-lg text-xs" oninput="calculate()">
+                            </div>
+                            <div class="col-span-4">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Cost ($)</label>
+                                <input type="number" step="1" class="w-full input-dark p-2 rounded-lg text-xs" value="0" oninput="calculate()">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Global Quote Input -->
                 <section class="glass-panel p-6 rounded-3xl bg-sky-500/5 border-sky-500/20">
-                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-widest mb-4">Competitive Benchmark</h3>
+                    <h3 class="text-xs font-bold text-sky-400 uppercase tracking-widest mb-4">Official Quote Analysis</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Official Supplier Quote (USD)</label>
-                            <input type="number" id="supplierQuote" placeholder="Enter Quote Amount..." class="w-full input-dark p-3 rounded-xl text-lg font-bold mono" value="1250">
+                            <label class="block text-[10px] text-slate-500 font-bold uppercase mb-1">Supplier Quote (USD Total)</label>
+                            <input type="number" id="supplierQuote" placeholder="Enter Quote Amount..." class="w-full input-dark p-3 rounded-xl text-lg font-bold mono" value="500" oninput="calculate()">
                         </div>
-                        <button onclick="calculate()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-sky-500/20">RUN ANALYSIS</button>
+                        <button onclick="calculate()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-sky-500/20">RECALCULATE</button>
                     </div>
                 </section>
             </div>
 
             <!-- Analysis Output -->
             <div class="lg:col-span-7 space-y-8">
-                <!-- Main KPI -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-8 rounded-[40px] border-l-8 border-sky-500">
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Engineered Should-Cost</p>
-                        <h2 id="finalCost" class="text-5xl font-black mt-2 mono">$842.50</h2>
-                        <div class="flex items-center gap-2 mt-4">
-                            <span class="px-2 py-0.5 bg-sky-500/10 text-sky-500 text-[10px] font-bold rounded">VERIFIED INDEX</span>
-                        </div>
+                        <h2 id="finalCost" class="text-5xl font-black mt-2 mono text-white">$0.00</h2>
                     </div>
                     <div id="marginCard" class="glass-panel p-8 rounded-[40px] border-l-8 border-rose-500">
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Est. Supplier Margin</p>
-                        <h2 id="marginPct" class="text-5xl font-black mt-2 mono text-rose-500">32.6%</h2>
-                        <p id="marginStatus" class="text-[10px] text-rose-400 mt-4 font-bold uppercase">Critical: Overcharge Detected</p>
+                        <h2 id="marginPct" class="text-5xl font-black mt-2 mono text-rose-500">0.0%</h2>
+                        <p id="marginStatus" class="text-[10px] text-rose-400 mt-4 font-bold uppercase">Ready for Audit</p>
                     </div>
                 </div>
 
-                <!-- Recommendation Logic -->
                 <div id="recPanel" class="glass-panel p-8 rounded-[40px] bg-white/5">
-                    <h3 class="text-xs font-bold text-white uppercase tracking-[0.2em] mb-4">Negotiation Strategy / GSM Playbook</h3>
+                    <h3 class="text-xs font-bold text-white uppercase tracking-[0.2em] mb-4">Negotiation Playbook</h3>
                     <p id="recText" class="text-sm leading-relaxed text-slate-300">
-                        "Margin exceeds 30%. Supplier is likely baking in excessive Risk Contingency or utilizing inefficient sub-tier suppliers. Request a cost-breakdown audit for the machining cycle-time vs. regional benchmarks."
+                        Enter your quote and build your BOM to generate a negotiation strategy.
                     </p>
-                    <div class="mt-6 flex gap-3">
-                        <span class="px-3 py-1 border border-white/10 rounded-full text-[10px] text-slate-400">#SpaceX-Style-Negotiation</span>
-                        <span class="px-3 py-1 border border-white/10 rounded-full text-[10px] text-slate-400">#Target-Cost-Eng</span>
-                    </div>
                 </div>
 
-                <!-- Live Visuals -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="glass-panel p-8 rounded-3xl">
-                        <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-4">Cost Mix Analysis</h4>
+                        <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-4">Cost Distribution</h4>
                         <div class="h-48"><canvas id="proChart"></canvas></div>
                     </div>
                     <div class="glass-panel p-8 rounded-3xl">
-                        <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-4">Live Market Feeds</h4>
-                        <div id="liveMarket" class="space-y-4">
-                            <!-- Injected by JS -->
-                        </div>
+                        <h4 class="text-[10px] font-bold text-slate-500 uppercase mb-4">Live Market Feeds (Scraped)</h4>
+                        <div id="liveMarket" class="space-y-4"></div>
                     </div>
                 </div>
             </div>
@@ -170,83 +186,146 @@
     </div>
 
     <script>
-        // LIVE CALCULATION ENGINE
-        const RATES = {
-            materials: { al6061: 2.48, ti64: 22.50, ss304: 4.80 },
-            processes: { cnc_5axis: 120, anodize: 15 },
-            labor: { sr_machinist: 65, assembly: 28, eng_npi: 95 }
-        };
+        let DATA = null;
+
+        async function init() {
+            // In a real vercel app, this would be an API call. For now we use the benchmark data.
+            const response = await fetch('data/benchmarks.json');
+            DATA = await response.json();
+            
+            populateSelects();
+            calculate();
+            initMarket();
+        }
+
+        function populateSelects() {
+            const matSelects = document.querySelectorAll('#materialList select');
+            const procSelects = document.querySelectorAll('#processList select');
+            const laborSelects = document.querySelectorAll('#laborList select');
+
+            const matOptions = DATA.materials.map(m => `<option value="${m.id}">${m.name} ($${m.basePrice}/kg)</option>`).join('');
+            const procOptions = DATA.processes.map(p => `<option value="${p.id}">${p.name} ($${p.rate}/hr)</option>`).join('');
+            const laborOptions = DATA.job_titles.map(j => `<option value="${j.id}">${j.name} ($${j.baseRate}/hr base)</option>`).join('');
+
+            matSelects.forEach(s => s.innerHTML = matOptions);
+            procSelects.forEach(s => s.innerHTML = procOptions);
+            laborSelects.forEach(s => s.innerHTML = laborOptions);
+        }
+
+        function handleSearch(input) {
+            const val = input.value.toLowerCase();
+            const resultsDiv = input.nextElementSibling;
+            if (val.length < 2) { resultsDiv.classList.add('hidden'); return; }
+
+            const matches = DATA.cities.filter(c => c.name.toLowerCase().includes(val));
+            if (matches.length > 0) {
+                resultsDiv.innerHTML = matches.map(m => `<div class="search-item" onclick="selectCity(this, '${m.name}')">${m.name}</div>`).join('');
+                resultsDiv.classList.remove('hidden');
+            } else {
+                resultsDiv.classList.add('hidden');
+            }
+        }
+
+        function selectCity(el, name) {
+            const input = el.parentElement.previousElementSibling;
+            input.value = name;
+            el.parentElement.classList.add('hidden');
+            calculate();
+        }
 
         function calculate() {
+            if (!DATA) return;
+
             let matTotal = 0;
             document.querySelectorAll('.material-row').forEach(row => {
-                const price = RATES.materials[row.querySelector('select').value];
+                const matId = row.querySelector('select').value;
+                const mat = DATA.materials.find(m => m.id === matId);
                 const weight = parseFloat(row.querySelectorAll('input')[0].value) || 0;
                 const qty = parseFloat(row.querySelectorAll('input')[1].value) || 0;
-                matTotal += price * weight * qty;
+                matTotal += mat.basePrice * weight * qty;
             });
 
             let procTotal = 0;
             document.querySelectorAll('.process-row').forEach(row => {
-                const rate = RATES.processes[row.querySelector('select').value];
+                const procId = row.querySelector('select').value;
+                const proc = DATA.processes.find(p => p.id === procId);
                 const units = parseFloat(row.querySelector('input').value) || 0;
-                procTotal += rate * units;
+                procTotal += proc.rate * units;
             });
 
             let laborTotal = 0;
             document.querySelectorAll('.labor-row').forEach(row => {
-                const rate = RATES.labor[row.querySelector('select').value];
+                const cityName = row.querySelector('.city-search').value;
+                const city = DATA.cities.find(c => c.name === cityName) || { laborIndex: 1.0 };
+                const jobId = row.querySelector('select').value;
+                const job = DATA.job_titles.find(j => j.id === jobId);
                 const hours = parseFloat(row.querySelectorAll('input')[1].value) || 0;
-                laborTotal += rate * hours;
+                
+                laborTotal += (job.baseRate * city.laborIndex) * hours;
             });
 
-            const shouldCost = matTotal + procTotal + laborTotal;
-            const quote = parseFloat(document.getElementById('supplierQuote').value) || 0;
-            const margin = quote > 0 ? ((quote - shouldCost) / quote) * 100 : 0;
+            let customTotal = 0;
+            document.querySelectorAll('.custom-row').forEach(row => {
+                const cost = parseFloat(row.querySelectorAll('input')[1].value) || 0;
+                customTotal += cost;
+            });
 
-            document.getElementById('finalCost').innerText = '$' + shouldCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            const total = matTotal + procTotal + laborTotal + customTotal;
+            const quote = parseFloat(document.getElementById('supplierQuote').value) || 0;
+            const margin = quote > 0 ? ((quote - total) / quote) * 100 : 0;
+
+            document.getElementById('finalCost').innerText = '$' + total.toLocaleString(undefined, {minimumFractionDigits: 2});
             document.getElementById('marginPct').innerText = margin.toFixed(1) + '%';
             
+            updateUIState(margin);
+            updateChart(matTotal, procTotal, laborTotal, customTotal);
+        }
+
+        function updateUIState(margin) {
             const card = document.getElementById('marginCard');
             const status = document.getElementById('marginStatus');
             const pctText = document.getElementById('marginPct');
             const rec = document.getElementById('recText');
 
-            if (margin > 30) {
+            if (margin > 35) {
                 card.style.borderColor = '#f43f5e';
                 pctText.className = 'text-5xl font-black mt-2 mono text-rose-500';
-                status.innerText = 'Critical: Overcharge Detected';
-                rec.innerText = 'The calculated margin is excessive. Negotiation Strategy: Verify the cycle time assumptions for 5-Axis CNC. Typical overhead for this process should not exceed 1.5x of direct labor. Push for a breakdown of non-recurring engineering (NRE) costs.';
-            } else if (margin > 15) {
+                status.innerText = 'Critical: High Margin Detected';
+                rec.innerText = 'Strategy: The margin is aggressive. Push for a breakdown of non-recurring engineering costs. Challenge the cycle time for the 5-axis process and verify if they are using the correct regional labor index.';
+            } else if (margin > 20) {
                 card.style.borderColor = '#f59e0b';
                 pctText.className = 'text-5xl font-black mt-2 mono text-amber-500';
                 status.innerText = 'Negotiable Range';
-                rec.innerText = 'Margin is slightly above industry average. Strategy: Leverage multi-year volume commitments to reduce the piece-price by 5-8%. Audit the raw material scrap factor being applied.';
-            } else {
+                rec.innerText = 'Supplier margin is slightly high. Target a 5-10% reduction by committing to higher annual volumes or optimizing the material choice to reduce scrap cost.';
+            } else if (margin > 0) {
                 card.style.borderColor = '#10b981';
                 pctText.className = 'text-5xl font-black mt-2 mono text-emerald-500';
-                status.innerText = 'Healthy: Market Alignment';
-                rec.innerText = 'Supplier margin is within a healthy, sustainable range (12-15%). Focus on securing high-priority lead times and optimizing logistics to reduce total landed cost.';
+                status.innerText = 'Healthy Alignment';
+                rec.innerText = 'Pricing is aligned with market benchmarks. Focus on supply chain resilience, lead time reduction, and securing quality slots for NPI launches.';
+            } else {
+                card.style.borderColor = '#64748b';
+                status.innerText = 'Review Inputs';
+                rec.innerText = 'Build your BOM or adjust the quote to see analysis.';
             }
-            updateVisuals(matTotal, procTotal, laborTotal);
         }
 
-        function updateVisuals(mat, proc, lab) {
+        function updateChart(mat, proc, lab, cust) {
             const ctx = document.getElementById('proChart').getContext('2d');
             if (window.myChart) window.myChart.destroy();
             window.myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'doughnut',
                 data: {
-                    labels: ['Mat', 'Proc', 'Lab'],
+                    labels: ['Mat', 'Proc', 'Lab', 'Add'],
                     datasets: [{
-                        data: [mat, proc, lab],
-                        backgroundColor: ['#0ea5e9', '#a855f7', '#10b981']
+                        data: [mat, proc, lab, cust],
+                        backgroundColor: ['#0ea5e9', '#a855f7', '#10b981', '#f59e0b'],
+                        borderWidth: 0
                     }]
                 },
                 options: {
+                    cutout: '80%',
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { display: false }, x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } } }
+                    plugins: { legend: { position: 'bottom', labels: { color: '#64748b', boxWidth: 10, font: { size: 10 } } } }
                 }
             });
         }
@@ -254,26 +333,35 @@
         function addRow(containerId) {
             const container = document.getElementById(containerId);
             const newRow = container.querySelector('div').cloneNode(true);
-            newRow.querySelectorAll('input').forEach(i => i.value = '');
+            newRow.querySelectorAll('input').forEach(i => i.value = (i.type === 'number' ? 0 : ''));
+            
+            // Re-populate selects if needed
             container.appendChild(newRow);
             calculate();
         }
 
-        window.onload = () => {
-            calculate();
+        function initMarket() {
             const feed = [
                 { name: 'LME AL6061', price: '$2.48/kg', delta: '+0.2%' },
                 { name: 'TITANIUM GR5', price: '$22.50/kg', delta: '+1.5%' },
                 { name: 'MXN/USD RATE', price: '17.05', delta: '-0.1%' }
             ];
             document.getElementById('liveMarket').innerHTML = feed.map(f => `
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center p-2 bg-white/5 rounded">
                     <span class="text-[10px] font-bold text-slate-500 uppercase">${f.name}</span>
                     <span class="text-xs font-bold text-white mono">${f.price}</span>
                     <span class="text-[10px] text-emerald-500">${f.delta}</span>
                 </div>
             `).join('');
-        };
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('city-search')) {
+                document.querySelectorAll('.search-results').forEach(r => r.classList.add('hidden'));
+            }
+        });
+
+        init();
     </script>
 </body>
 </html>

@@ -1,18 +1,59 @@
 {
     "materials": [
-        { "id": "al6061", "name": "Aluminum 6061-T6", "base_density": 2.7, "unit": "kg", "scrap_value_factor": 0.4 },
-        { "id": "ss304", "name": "Stainless Steel 304", "base_density": 8.0, "unit": "kg", "scrap_value_factor": 0.3 },
-        { "id": "ti64", "name": "Titanium Gr5 (6Al-4V)", "base_density": 4.43, "unit": "kg", "scrap_value_factor": 0.5 },
-        { "id": "pc", "name": "Polycarbonate", "base_density": 1.2, "unit": "kg", "scrap_value_factor": 0.05 }
+        {"id": "al6061", "name": "Aluminum 6061", "category": "Metal", "density": 2.7, "basePrice": 2.48},
+        {"id": "al7075", "name": "Aluminum 7075", "category": "Metal", "density": 2.8, "basePrice": 3.85},
+        {"id": "ss304", "name": "Stainless Steel 304", "category": "Metal", "density": 8.0, "basePrice": 4.80},
+        {"id": "ss316", "name": "Stainless Steel 316", "category": "Metal", "density": 8.0, "basePrice": 5.95},
+        {"id": "ti64", "name": "Titanium Gr5 (6Al-4V)", "category": "Metal", "density": 4.43, "basePrice": 22.50},
+        {"id": "cu_ofhc", "name": "Copper (OFHC)", "category": "Metal", "density": 8.96, "basePrice": 9.10},
+        {"id": "br_c360", "name": "Brass C360", "category": "Metal", "density": 8.5, "basePrice": 6.20},
+        {"id": "inconel718", "name": "Inconel 718", "category": "Metal", "density": 8.19, "basePrice": 45.00},
+        {"id": "pc", "name": "Polycarbonate (PC)", "category": "Plastic", "density": 1.2, "basePrice": 3.15},
+        {"id": "abs", "name": "ABS", "category": "Plastic", "density": 1.05, "basePrice": 2.10},
+        {"id": "pom", "name": "Acetal (Delrin/POM)", "category": "Plastic", "density": 1.41, "basePrice": 4.50},
+        {"id": "peek", "name": "PEEK", "category": "Plastic", "density": 1.32, "basePrice": 95.00},
+        {"id": "ptfe", "name": "PTFE (Teflon)", "category": "Plastic", "density": 2.2, "basePrice": 18.00},
+        {"id": "epdm", "name": "EPDM Rubber", "category": "Rubber", "density": 1.1, "basePrice": 2.80},
+        {"id": "nitrile", "name": "Nitrile (Buna-N)", "category": "Rubber", "density": 1.2, "basePrice": 3.20},
+        {"id": "silicone", "name": "Silicone Rubber", "category": "Rubber", "density": 1.2, "basePrice": 8.50}
     ],
-    "labor_rates": [
-        { "region": "US-California", "title": "Senior Machinist", "rate": 65.0, "currency": "USD" },
-        { "region": "US-California", "title": "Assembly Tech", "rate": 28.0, "currency": "USD" },
-        { "region": "Mexico-Queretaro", "title": "Senior Machinist", "rate": 12.5, "currency": "USD" },
-        { "region": "Vietnam-Hanoi", "title": "Senior Machinist", "rate": 4.8, "currency": "USD" }
+    "cities": [
+        {"name": "Los Angeles, USA", "country": "USA", "laborIndex": 1.15},
+        {"name": "San Francisco, USA", "country": "USA", "laborIndex": 1.35},
+        {"name": "Austin, USA", "country": "USA", "laborIndex": 1.0},
+        {"name": "Monterrey, Mexico", "country": "Mexico", "laborIndex": 0.25},
+        {"name": "Queretaro, Mexico", "country": "Mexico", "laborIndex": 0.22},
+        {"name": "Shenzhen, China", "country": "China", "laborIndex": 0.18},
+        {"name": "Shanghai, China", "country": "China", "laborIndex": 0.20},
+        {"name": "Ho Chi Minh City, Vietnam", "country": "Vietnam", "laborIndex": 0.10},
+        {"name": "Hanoi, Vietnam", "country": "Vietnam", "laborIndex": 0.09},
+        {"name": "Bangalore, India", "country": "India", "laborIndex": 0.08},
+        {"name": "Stuttgart, Germany", "country": "Germany", "laborIndex": 1.1},
+        {"name": "Tokyo, Japan", "country": "Japan", "laborIndex": 0.9},
+        {"name": "Seoul, South Korea", "country": "South Korea", "laborIndex": 0.85}
+    ],
+    "job_titles": [
+        {"id": "eng_sr", "name": "Senior Design Engineer", "baseRate": 95},
+        {"id": "eng_npi", "name": "NPI Engineer", "baseRate": 85},
+        {"id": "machinist_sr", "name": "Sr. 5-Axis Machinist", "baseRate": 65},
+        {"id": "machinist_jr", "name": "Machine Operator", "baseRate": 35},
+        {"id": "welder_cert", "name": "Certified Welder (TIG/MIG)", "baseRate": 55},
+        {"id": "welder_robot", "name": "Robotic Weld Operator", "baseRate": 40},
+        {"id": "assembly_tech", "name": "Electro-Mechanical Tech", "baseRate": 30},
+        {"id": "qc_inspector", "name": "QC/CMM Inspector", "baseRate": 45},
+        {"id": "logistics_coord", "name": "Logistics Coordinator", "baseRate": 25}
     ],
     "processes": [
-        { "id": "cnc_5axis", "name": "5-Axis CNC", "unit": "hour", "overhead_factor": 1.5 },
-        { "id": "anodize", "name": "Type II Anodizing", "unit": "part", "overhead_factor": 1.1 }
+        {"id": "cnc_5axis", "name": "5-Axis CNC Milling", "rate": 120},
+        {"id": "cnc_lathe", "name": "CNC Lathe / Turning", "rate": 85},
+        {"id": "inj_mold", "name": "Injection Molding (Press Time)", "rate": 45},
+        {"id": "die_cast", "name": "Die Casting", "rate": 75},
+        {"id": "stamping", "name": "Progressive Stamping", "rate": 35},
+        {"id": "extrusion", "name": "Aluminum Extrusion", "rate": 25},
+        {"id": "anodize_h", "name": "Hardcoat Anodizing (Type III)", "rate": 15},
+        {"id": "powder_coat", "name": "Powder Coating", "rate": 8},
+        {"id": "passivate", "name": "Passivation (Citric/Nitric)", "rate": 5},
+        {"id": "heat_treat", "name": "Vacuum Heat Treat", "rate": 20},
+        {"id": "laser_cut", "name": "Laser/Waterjet Cutting", "rate": 60}
     ]
 }
