@@ -23,7 +23,7 @@
         <!-- Header -->
         <header class="flex justify-between items-end mb-12 border-b border-white/10 pb-8">
             <div>
-                <h1 class="text-5xl font-bold tracking-tighter text-white neon-text">SPEND<span class="text-sky-500">CORE</span> <span class="text-2xl italic font-light opacity-50 ml-2">PRO</span></h1>
+                <h1 class="text-5xl font-bold tracking-tighter text-white neon-text uppercase">SHOULD-COST <span class="text-sky-500">LIVE</span></h1>
                 <p class="text-slate-400 mt-2 uppercase tracking-[0.3em] text-[10px] font-bold">Engineering-First Supply Management Tool</p>
             </div>
             <div class="text-right hidden md:block">
@@ -46,14 +46,20 @@
                         <button onclick="addRow('materialList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Component</button>
                     </div>
                     <div id="materialList" class="space-y-3">
-                        <div class="grid grid-cols-12 gap-2">
-                            <select class="col-span-6 input-dark p-2 rounded-lg text-xs">
+                        <div class="grid grid-cols-12 gap-2 material-row">
+                            <select class="col-span-6 input-dark p-2 rounded-lg text-xs" onchange="calculate()">
                                 <option value="al6061">AL-6061-T6 (Aluminum)</option>
                                 <option value="ti64">TI-64-V (Titanium)</option>
                                 <option value="ss304">SS-304 (Stainless)</option>
                             </select>
-                            <input type="number" placeholder="Wt (kg)" class="col-span-3 input-dark p-2 rounded-lg text-xs" value="2.5">
-                            <input type="number" placeholder="Qty" class="col-span-3 input-dark p-2 rounded-lg text-xs" value="1">
+                            <div class="col-span-3">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Weight (kg)</label>
+                                <input type="number" placeholder="kg" class="w-full input-dark p-2 rounded-lg text-xs" value="2.5" oninput="calculate()">
+                            </div>
+                            <div class="col-span-3">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Quantity</label>
+                                <input type="number" placeholder="Qty" class="w-full input-dark p-2 rounded-lg text-xs" value="1" oninput="calculate()">
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -65,12 +71,15 @@
                         <button onclick="addRow('processList')" class="btn-add px-3 py-1 rounded text-[10px] font-bold">+ Add Step</button>
                     </div>
                     <div id="processList" class="space-y-3">
-                        <div class="grid grid-cols-12 gap-2">
-                            <select class="col-span-6 input-dark p-2 rounded-lg text-xs">
+                        <div class="grid grid-cols-12 gap-2 process-row">
+                            <select class="col-span-6 input-dark p-2 rounded-lg text-xs" onchange="calculate()">
                                 <option value="cnc_5axis">5-Axis CNC Milling</option>
                                 <option value="anodize">Type III Hardcoat Anodize</option>
                             </select>
-                            <input type="number" placeholder="Hrs/Units" class="col-span-6 input-dark p-2 rounded-lg text-xs" value="4.5">
+                            <div class="col-span-6">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Hours / Units</label>
+                                <input type="number" placeholder="Hrs/Units" class="w-full input-dark p-2 rounded-lg text-xs" value="4.5" oninput="calculate()">
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -78,13 +87,25 @@
                 <!-- 3. Regional Labor Rates -->
                 <section class="glass-panel p-6 rounded-3xl">
                     <h3 class="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-4">Labor Distribution</h3>
-                    <div class="grid grid-cols-12 gap-2">
-                        <select class="col-span-8 input-dark p-2 rounded-lg text-xs">
-                            <option value="US-California">USA (California - High Complexity)</option>
-                            <option value="Mexico-Queretaro">Mexico (Queretaro - Nearshore)</option>
-                            <option value="Vietnam-Hanoi">Vietnam (LCC Sourcing)</option>
-                        </select>
-                        <input type="number" placeholder="Hours" class="col-span-4 input-dark p-2 rounded-lg text-xs" value="8">
+                    <div id="laborList" class="space-y-3">
+                        <div class="grid grid-cols-12 gap-2 labor-row">
+                            <div class="col-span-5">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Geography / Zip</label>
+                                <input type="text" placeholder="Zip or Country" class="w-full input-dark p-2 rounded-lg text-xs" value="USA (90245)" oninput="calculate()">
+                            </div>
+                            <div class="col-span-4">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Job Title</label>
+                                <select class="w-full input-dark p-2 rounded-lg text-xs" onchange="calculate()">
+                                    <option value="sr_machinist">Sr Machinist</option>
+                                    <option value="assembly">Assembly Tech</option>
+                                    <option value="eng_npi">NPI Engineer</option>
+                                </select>
+                            </div>
+                            <div class="col-span-3">
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Total Hours</label>
+                                <input type="number" placeholder="Hrs" class="w-full input-dark p-2 rounded-lg text-xs" value="8" oninput="calculate()">
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -149,14 +170,41 @@
     </div>
 
     <script>
-        // MOCK LOGIC FOR THE SHOWCASE (FE ONLY)
-        function calculate() {
-            // Simplified logic for the preview
-            const quote = parseFloat(document.getElementById('supplierQuote').value);
-            const shouldCost = 842.50; // Mocked for initial view
-            const margin = ((quote - shouldCost) / quote) * 100;
+        // LIVE CALCULATION ENGINE
+        const RATES = {
+            materials: { al6061: 2.48, ti64: 22.50, ss304: 4.80 },
+            processes: { cnc_5axis: 120, anodize: 15 },
+            labor: { sr_machinist: 65, assembly: 28, eng_npi: 95 }
+        };
 
-            document.getElementById('finalCost').innerText = '$' + shouldCost.toFixed(2);
+        function calculate() {
+            let matTotal = 0;
+            document.querySelectorAll('.material-row').forEach(row => {
+                const price = RATES.materials[row.querySelector('select').value];
+                const weight = parseFloat(row.querySelectorAll('input')[0].value) || 0;
+                const qty = parseFloat(row.querySelectorAll('input')[1].value) || 0;
+                matTotal += price * weight * qty;
+            });
+
+            let procTotal = 0;
+            document.querySelectorAll('.process-row').forEach(row => {
+                const rate = RATES.processes[row.querySelector('select').value];
+                const units = parseFloat(row.querySelector('input').value) || 0;
+                procTotal += rate * units;
+            });
+
+            let laborTotal = 0;
+            document.querySelectorAll('.labor-row').forEach(row => {
+                const rate = RATES.labor[row.querySelector('select').value];
+                const hours = parseFloat(row.querySelectorAll('input')[1].value) || 0;
+                laborTotal += rate * hours;
+            });
+
+            const shouldCost = matTotal + procTotal + laborTotal;
+            const quote = parseFloat(document.getElementById('supplierQuote').value) || 0;
+            const margin = quote > 0 ? ((quote - shouldCost) / quote) * 100 : 0;
+
+            document.getElementById('finalCost').innerText = '$' + shouldCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('marginPct').innerText = margin.toFixed(1) + '%';
             
             const card = document.getElementById('marginCard');
@@ -164,47 +212,55 @@
             const pctText = document.getElementById('marginPct');
             const rec = document.getElementById('recText');
 
-            if(margin > 25) {
+            if (margin > 30) {
                 card.style.borderColor = '#f43f5e';
                 pctText.className = 'text-5xl font-black mt-2 mono text-rose-500';
                 status.innerText = 'Critical: Overcharge Detected';
-                rec.innerText = 'Negotiation Plan: The delta is high. Challenge the labor-hour assumptions. Based on 5-Axis benchmarks, this part should only require 3.5 hours of machining, not the 5.0 quoted.';
+                rec.innerText = 'The calculated margin is excessive. Negotiation Strategy: Verify the cycle time assumptions for 5-Axis CNC. Typical overhead for this process should not exceed 1.5x of direct labor. Push for a breakdown of non-recurring engineering (NRE) costs.';
+            } else if (margin > 15) {
+                card.style.borderColor = '#f59e0b';
+                pctText.className = 'text-5xl font-black mt-2 mono text-amber-500';
+                status.innerText = 'Negotiable Range';
+                rec.innerText = 'Margin is slightly above industry average. Strategy: Leverage multi-year volume commitments to reduce the piece-price by 5-8%. Audit the raw material scrap factor being applied.';
             } else {
                 card.style.borderColor = '#10b981';
                 pctText.className = 'text-5xl font-black mt-2 mono text-emerald-500';
                 status.innerText = 'Healthy: Market Alignment';
-                rec.innerText = 'Supplier margin is within healthy parameters (12-18%). Focus on securing long-term supply agreements and optimizing the logistics pipeline.';
+                rec.innerText = 'Supplier margin is within a healthy, sustainable range (12-15%). Focus on securing high-priority lead times and optimizing logistics to reduce total landed cost.';
             }
-            renderChart();
+            updateVisuals(matTotal, procTotal, laborTotal);
         }
 
-        function addRow(containerId) {
-            const container = document.getElementById(containerId);
-            const newRow = container.children[0].cloneNode(true);
-            container.appendChild(newRow);
-        }
-
-        function renderChart() {
+        function updateVisuals(mat, proc, lab) {
             const ctx = document.getElementById('proChart').getContext('2d');
-            new Chart(ctx, {
+            if (window.myChart) window.myChart.destroy();
+            window.myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Mat', 'Proc', 'Lab', 'Duty'],
+                    labels: ['Mat', 'Proc', 'Lab'],
                     datasets: [{
-                        label: 'Cost Share',
-                        data: [30, 45, 20, 5],
-                        backgroundColor: '#0ea5e9'
+                        data: [mat, proc, lab],
+                        backgroundColor: ['#0ea5e9', '#a855f7', '#10b981']
                     }]
                 },
                 options: {
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { y: { display: false }, x: { grid: { display: false } } }
+                    scales: { y: { display: false }, x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } } }
                 }
             });
         }
 
-        function initMarket() {
+        function addRow(containerId) {
+            const container = document.getElementById(containerId);
+            const newRow = container.querySelector('div').cloneNode(true);
+            newRow.querySelectorAll('input').forEach(i => i.value = '');
+            container.appendChild(newRow);
+            calculate();
+        }
+
+        window.onload = () => {
+            calculate();
             const feed = [
                 { name: 'LME AL6061', price: '$2.48/kg', delta: '+0.2%' },
                 { name: 'TITANIUM GR5', price: '$22.50/kg', delta: '+1.5%' },
@@ -212,16 +268,11 @@
             ];
             document.getElementById('liveMarket').innerHTML = feed.map(f => `
                 <div class="flex justify-between items-center">
-                    <span class="text-[10px] font-bold text-slate-500">${f.name}</span>
-                    <span class="text-xs font-bold text-white">${f.price}</span>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">${f.name}</span>
+                    <span class="text-xs font-bold text-white mono">${f.price}</span>
                     <span class="text-[10px] text-emerald-500">${f.delta}</span>
                 </div>
             `).join('');
-        }
-
-        window.onload = () => {
-            renderChart();
-            initMarket();
         };
     </script>
 </body>
