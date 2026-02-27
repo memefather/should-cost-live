@@ -138,6 +138,36 @@
                 </section>
 
                 <!-- Global Quote Input -->
+                <!-- Logistics Section --> 
+                <section class="glass-panel p-6 rounded-3xl border-emerald-500/20 bg-emerald-500/5"> 
+                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4">Logistics & Freight</h3> 
+                    <div class="space-y-4"> 
+                        <div class="relative"> 
+                            <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Origin City</label> 
+                            <input type="text" id="originCity" class="w-full input-dark p-2 rounded-lg text-xs" placeholder="Search Origin..." oninput="searchCities(this, 'origin')" value="Shenzhen, China"> 
+                            <div id="originResults" class="absolute z-50 w-full bg-black border border-white/10 rounded-lg mt-1 hidden max-h-40 overflow-y-auto"></div> 
+                        </div> 
+                        <div class="relative"> 
+                            <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Destination City</label> 
+                            <input type="text" id="destCity" class="w-full input-dark p-2 rounded-lg text-xs" placeholder="Search Destination..." oninput="searchCities(this, 'dest')" value="Austin, USA"> 
+                            <div id="destResults" class="absolute z-50 w-full bg-black border border-white/10 rounded-lg mt-1 hidden max-h-40 overflow-y-auto"></div> 
+                        </div> 
+                        <div class="grid grid-cols-2 gap-4"> 
+                            <div> 
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Shipping Mode</label> 
+                                <select id="shippingMode" class="w-full input-dark p-2 rounded-lg text-xs" onchange="calculate()"> 
+                                    <option value="boat">Ocean Freight (Boat)</option> 
+                                    <option value="air">Air Cargo</option> 
+                                    <option value="truck">Ground (Truck)</option> 
+                                </select> 
+                            </div> 
+                            <div> 
+                                <label class="text-[8px] uppercase text-slate-500 font-bold block mb-1">Tariff (%)</label> 
+                                <input type="number" id="tariffRate" class="w-full input-dark p-2 rounded-lg text-xs" value="10" oninput="calculate()"> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </section> 
                 <section class="glass-panel p-6 rounded-3xl bg-sky-500/5 border-sky-500/20">
                     <h3 class="text-xs font-bold text-sky-400 uppercase tracking-widest mb-4">Official Quote Analysis</h3>
                     <div class="space-y-4">
